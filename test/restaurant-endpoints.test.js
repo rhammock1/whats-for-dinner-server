@@ -8,8 +8,6 @@ describe('Restaurants Endpoints', function() {
 
   const {
     testRestaurants,
-    testRecipes,
-    testIngredients,
   } = helpers.makeThingsFixtures()
 
   before('make knex instance', () => {

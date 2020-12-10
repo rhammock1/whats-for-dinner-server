@@ -1,5 +1,5 @@
 const restaurantsService = {
-  getAllFolders(knex) {
+  getAllRestaurants(knex) {
     return knex.select('*').from('dinner_restaurants')
   },
   insertRestaurant(knex, newFolder) {
