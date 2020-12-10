@@ -6,7 +6,7 @@ function makeRestaurantsArray() {
       title: 'test-restaurant-1',
       phone_number: '(222)222-222',
       web_url: 'https://www.google.com',
-      style: 'password',
+      style: 'local',
       restaurant_address: '123 Easy st, Main, YT 12345',
     },
     {
@@ -14,7 +14,7 @@ function makeRestaurantsArray() {
       title: 'test-restaurant-2',
       phone_number: '(222)222-222',
       web_url: 'https://www.google.com',
-      style: 'password',
+      style: 'chain',
       restaurant_address: '123 Easy st, Main, YT 12345',
     },
     {
@@ -22,7 +22,7 @@ function makeRestaurantsArray() {
       title: 'test-resttaurant-3',
       phone_number: '(222)222-222',
       web_url: 'https://www.google.com',
-      style: 'password',
+      style: 'local',
       restaurant_address: '123 Easy st, Main, YT 12345',
     }
   ]
@@ -113,7 +113,31 @@ function makeThingsFixtures() {
 
 }
 
+function makeMaliciousRestaurant() {
+  const maliciousRestaurant = {
+    id: 911,
+    title: 'Naughty naughty very naughty <script>alert("xss");</script>',
+    phone_number: 'Naughty naughty very naughty <script>alert("xss");</script>',
+    web_url: 'Naughty naughty very naughty <script>alert("xss");</script>',
+    restaurant_address: 'Naughty naughty very naughty <script>alert("xss");</script>',
+    
+  }
+  const expectedRestaurant = {
+    ...maliciousRestaurant,
+    title: 'Naughty naughty very naughty &lt;script&gt;alert(\"xss\");&lt;/script&gt;',
+    phone_number: 'Naughty naughty very naughty &lt;script&gt;alert(\"xss\");&lt;/script&gt;',
+    web_url: 'Naughty naughty very naughty &lt;script&gt;alert(\"xss\");&lt;/script&gt;',
+    restaurant_address: 'Naughty naughty very naughty &lt;script&gt;alert(\"xss\");&lt;/script&gt;',
+    
+  }
+  return {
+    maliciousRestaurant,
+    expectedRestaurant,
+  }
+}
+
 module.exports = {
   cleanTables,
-  makeThingsFixtures
+  makeThingsFixtures,
+  makeMaliciousRestaurant
 }

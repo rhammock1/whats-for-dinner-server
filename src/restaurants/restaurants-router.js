@@ -10,6 +10,10 @@ const serializeRestaurant = function(restaurant) {
   return {
   id: restaurant.id,
   title: xss(restaurant.title),
+  phone_number: xss(restaurant.phone_number),
+  web_url: xss(restaurant.web_url),
+  style: restaurant.style,
+  restaurant_address: xss(restaurant.restaurant_address),
   }
 }
 
