@@ -3,5 +3,5 @@ CREATE TABLE dinner_restaurants (
   title TEXT NOT NULL,
   phone_number TEXT,
   web_url TEXT,
-  address TEXT 
+  restaurant_address TEXT 
 );
