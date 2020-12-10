@@ -6,18 +6,17 @@ TRUNCATE
   recipe_ingredients
   RESTART IDENTITY CASCADE; 
 
-INSERT INTO dinner_restaurants (title, phone_number, web_url, restaurant_address)
+INSERT INTO dinner_restaurants (title, phone_number, web_url, style, restaurant_address)
 VALUES
-('Taco Bell', '(704) 525-3661', 'https://locations.tacobell.com/nc/charlotte/2405-south-blvd.html?utm_source=yext&utm_campaign=googlelistings&utm_medium=referral&utm_term=005671&utm_content=website&y_source=1_MzkxNjkwNy03MTUtbG9jYXRpb24uZ29vZ2xlX3dlYnNpdGVfb3ZlcnJpZGU%3D', '2405 South Blvd, Charlotte, NC 28203'),
-('Popeyes Louisiana Kitchen', '(704) 394-8243', 'https://www.popeyes.com/store-locator/store/restaurant_84795', '3318 Wilkinson Blvd, Charlotte, NC 28208'),
-('Shake Shack', '(980) 265-3188', 'https://www.shakeshack.com/location/park-road-charlotte-nc/?utm_source=G&utm_medium=local&utm_campaign=google-local', '1605 E Woodlawn Rd, Charlotte, NC 28209'),
-('Five Guys', '(704) 333-4450', 'http://www.fiveguys.com/', ' 2810 South Blvd Unit A, Charlotte, NC 28209'),
-('Papa John''s Pizza', '(704) 522-7272', 'https://locations.papajohns.com/united-states/nc/28217/charlotte/4820-south-blvd?utm_source=gmb&utm_medium=organic&y_source=1_MTA2OTI1MDYtNzE1LWxvY2F0aW9uLmdvb2dsZV93ZWJzaXRlX292ZXJyaWRl', '4820 South Blvd, Charlotte, NC 28217'),
-('Panera Bread', '(980) 215-6496', 'https://locations.panerabread.com/nc/charlotte/3625-city-park-dr.html?utm_medium=display-ad&utm_source=paid-digital&utm_campaign=yext&utm_content=local-search', '3625 City Park Dr, Charlotte, NC 28217'),
-('Domino''s Pizza', '(704) 527-7892', 'https://www.dominos.com/en/?utm_source=google&utm_medium=loclist&utm_campaign=localmaps', '4755 South Blvd, Charlotte, NC 28217'),
-('Chick-Fil-A', '(704) 665-6371',
-'https://www.chick-fil-a.com/southend', '3015 South Blvd, Charlotte, NC 28209'),
-('McDonald''s', '(704) 523-6334', 'https://www.mcdonalds.com/us/en-us/location/NC/CHARLOTTE/4440-S-TRYON-ST/6788.html?cid=RF:YXT:GMB::Clicks', '4440 S Tryon St, Charlotte, NC 28210');
+('Taco Bell', '(704) 525-3661', 'https://locations.tacobell.com/nc/charlotte/2405-south-blvd.html?utm_source=yext&utm_campaign=googlelistings&utm_medium=referral&utm_term=005671&utm_content=website&y_source=1_MzkxNjkwNy03MTUtbG9jYXRpb24uZ29vZ2xlX3dlYnNpdGVfb3ZlcnJpZGU%3D', 'chain', '2405 South Blvd, Charlotte, NC 28203'),
+('Popeyes Louisiana Kitchen', '(704) 394-8243', 'https://www.popeyes.com/store-locator/store/restaurant_84795', 'chain', '3318 Wilkinson Blvd, Charlotte, NC 28208'),
+('Shake Shack', '(980) 265-3188', 'https://www.shakeshack.com/location/park-road-charlotte-nc/?utm_source=G&utm_medium=local&utm_campaign=google-local', 'chain', '1605 E Woodlawn Rd, Charlotte, NC 28209'),
+('Five Guys', '(704) 333-4450', 'http://www.fiveguys.com/', 'chain', ' 2810 South Blvd Unit A, Charlotte, NC 28209'),
+('Papa John''s Pizza', '(704) 522-7272', 'https://locations.papajohns.com/united-states/nc/28217/charlotte/4820-south-blvd?utm_source=gmb&utm_medium=organic&y_source=1_MTA2OTI1MDYtNzE1LWxvY2F0aW9uLmdvb2dsZV93ZWJzaXRlX292ZXJyaWRl', 'chain', '4820 South Blvd, Charlotte, NC 28217'),
+('Panera Bread', '(980) 215-6496', 'https://locations.panerabread.com/nc/charlotte/3625-city-park-dr.html?utm_medium=display-ad&utm_source=paid-digital&utm_campaign=yext&utm_content=local-search', 'chain', '3625 City Park Dr, Charlotte, NC 28217'),
+('Domino''s Pizza', '(704) 527-7892', 'https://www.dominos.com/en/?utm_source=google&utm_medium=loclist&utm_campaign=localmaps', 'chain', '4755 South Blvd, Charlotte, NC 28217'),
+('Chick-Fil-A', '(704) 665-6371', 'https://www.chick-fil-a.com/southend', 'chain', '3015 South Blvd, Charlotte, NC 28209'),
+('McDonald''s', '(704) 523-6334', 'https://www.mcdonalds.com/us/en-us/location/NC/CHARLOTTE/4440-S-TRYON-ST/6788.html?cid=RF:YXT:GMB::Clicks', 'chain', '4440 S Tryon St, Charlotte, NC 28210');
 
 INSERT INTO dinner_recipes (title, content)
 VALUES
