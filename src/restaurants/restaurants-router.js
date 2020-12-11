@@ -21,25 +21,27 @@ restaurantsRouter
   .route('/')
   .get((req, res, next) => {
     const db = req.app.get('db');
-    const { style='' } = req.query;
-    if(style === '') {
-      console.log(style);
-    } else if(style !== 'local' || style !== 'chain') {
-      console.log(style)
-      return res.status(400).json({
+    const { style } = req.query;
+    
+    if(style) {
+      if(!['local', 'chain'].includes(style)) {
+        return res.status(400).json({
         error: 'Style must be local or chain'
       })
-    } 
+      }
+    }
     restaurantsService.getAllRestaurants(db)
       .then(restaurants => {
-        res.status(200).json(restaurants.map(serializeRestaurant))
-        // let filteredRestaurants = restaurants.map(restaurant => {
-        //   (restaurant.style === style)
-        //     ? restaurant
-        //     : console.log('hello')
-        //   })
-          
-        // return res.status(200).json({ filteredRestaurants })
+        let filteredRestaurants;
+        filteredRestaurants = restaurants.filter(restaurant => {
+          if(!style) {
+            return restaurant
+          }
+          if(restaurant.style === style) {
+            return restaurant
+          }
+        });
+          return res.status(200).json({ filteredRestaurants })
       })
       .catch(next)
   })
