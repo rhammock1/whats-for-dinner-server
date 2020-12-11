@@ -78,9 +78,67 @@ describe('Restaurants Endpoints', function() {
       })
     })
   })
+  describe.only('POST /api/restaurants', () => {
+    context(`Given an XSS attack restaurant`, () => {
+     const { maliciousRestaurant, expectedRestaurant } = helpers.makeMaliciousRestaurant();
 
-    describe(`GET /api/restaurants/:restaurantId`, function() {
-      context('Given no restaurants', () => {
+    //  beforeEach('insert malicious restaurant', () => {
+    //    return db
+    //      .into('dinner_restaurants')
+    //      .insert([maliciousRestaurant])
+    //  })
+
+     it('removes XSS attack content', () => {
+       return supertest(app)
+        .post('/api/restaurants')
+        .send(maliciousRestaurant)
+        .expect(201)
+        .then(res =>
+          supertest(app)
+          .get(`/api/restaurants/${maliciousRestaurant.id}`)
+          .expect(200)
+          .expect(res => {
+            expect(res.body.title).to.eql(expectedRestaurant.title)
+            expect(res.body.phone_number).to.eql(expectedRestaurant.phone_number)
+            expect(res.body.web_url).to.eql(expectedRestaurant.web_url)
+            expect(res.body.restaurant_address).to.eql(expectedRestaurant.restaurant_address)
+            
+         })
+        )
+         
+      })
+    })
+    it('Creates a restaurant, responding with 201 and the new restaurants', () => {
+      const newRestaurant = {
+        title: 'New Restaurant',
+        phone_number: '1234567',
+        web_url: 'http://random.web',
+        style: 'local',
+        restaurant_address: '123 easy st.'
+      }
+      return supertest(app)
+        .post('/api/folders')
+        .send(newRestaurant)
+        .expect(201)
+        .expect(res => {
+          expect(res.body.title).to.eql(newRestaurant.title)
+          expect(res.body.phone_number).to.eql(newRestaurant.phone_number)
+          expect(res.body.web_url).to.eql(newRestaurant.web_url)
+          expect(res.body.style).to.eql(newRestaurant.style)
+          expect(res.body.restaurant_address).to.eql(newRestaurant.restaurant_address)
+          expect(res.body).to.have.property('id')
+          expect(res.headers.location).to.eql(`/api/restaurants/${res.body.id}`)
+        })
+        .then(postRes => 
+          supertest(app)
+            .get(`/api/restaurants/${postRes.body.id}`)
+            .expect(postRes.body)
+        )
+    })
+  })
+
+  describe(`GET /api/restaurants/:restaurantId`, function() {
+    context('Given no restaurants', () => {
       it('responds with 404', () => {
         let testId = 123456
         return supertest(app)
@@ -112,7 +170,7 @@ describe('Restaurants Endpoints', function() {
 
      it('removes XSS attack content', () => {
        return supertest(app)
-         .get(`/api/restaurants/911`)
+         .get(`/api/restaurants/${maliciousRestaurant.id}`)
          .expect(200)
          .expect(res => {
            expect(res.body.title).to.eql(expectedRestaurant.title)
