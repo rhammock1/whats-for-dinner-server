@@ -46,7 +46,6 @@ describe('Restaurants Endpoints', function() {
          .get(`/api/restaurants`)
          .expect(200)
          .expect(res => {
-          //  console.log(res.body)
            expect(res.body[0].title).to.eql(expectedRestaurant.title)
            expect(res.body[0].phone_number).to.eql(expectedRestaurant.phone_number)
            expect(res.body[0].web_url).to.eql(expectedRestaurant.web_url)
@@ -80,7 +79,7 @@ describe('Restaurants Endpoints', function() {
     })
   })
 
-    describe.only(`GET /api/restaurants/:restaurantId`, function() {
+    describe(`GET /api/restaurants/:restaurantId`, function() {
       context('Given no restaurants', () => {
       it('responds with 404', () => {
         let testId = 123456
@@ -89,5 +88,40 @@ describe('Restaurants Endpoints', function() {
           .expect(404, { error: `Restaurant doesn't exist`})
       })
     })
+    context('Given there are restaurants in the database', () => {
+
+      beforeEach('insert restaurants', () => {
+        return db
+          .into('dinner_restaurants')
+          .insert(testRestaurants)
+      })
+      it('GET /api/restaurants/:restaurantId responds with 200 and the restaurant', () => {
+        return supertest(app)
+          .get('/api/restaurants/1')
+          .expect(200, testRestaurants[0])
+      })
+    })
+    context(`Given an XSS attack restaurant`, () => {
+     const { maliciousRestaurant, expectedRestaurant } = helpers.makeMaliciousRestaurant();
+
+     beforeEach('insert malicious restaurant', () => {
+       return db
+         .into('dinner_restaurants')
+         .insert([maliciousRestaurant])
+     })
+
+     it('removes XSS attack content', () => {
+       return supertest(app)
+         .get(`/api/restaurants/911`)
+         .expect(200)
+         .expect(res => {
+           expect(res.body.title).to.eql(expectedRestaurant.title)
+           expect(res.body.phone_number).to.eql(expectedRestaurant.phone_number)
+           expect(res.body.web_url).to.eql(expectedRestaurant.web_url)
+           expect(res.body.restaurant_address).to.eql(expectedRestaurant.restaurant_address)
+           
+         })
+     })
     })
   })
+})
