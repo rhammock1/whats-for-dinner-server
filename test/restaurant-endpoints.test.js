@@ -24,7 +24,7 @@ describe('Restaurants Endpoints', function() {
 
   afterEach('cleanup', () => helpers.cleanTables(db))
 
-  describe.only('GET /api/restaurants', () => {
+  describe('GET /api/restaurants', () => {
     context('Given no restaurants', () => {
       it('responds with 200 and an empty list', () => {
         return supertest(app)
@@ -74,9 +74,20 @@ describe('Restaurants Endpoints', function() {
           }
         })
         return supertest(app)
-          .get('/api/restaurants?style=local')
+          .get('/api/restaurants/?style=local')
           .expect(200, filteredRestaurants)
       })
     })
   })
+
+    describe.only(`GET /api/restaurants/:restaurantId`, function() {
+      context('Given no restaurants', () => {
+      it('responds with 404', () => {
+        let testId = 123456
+        return supertest(app)
+          .get(`/api/restaurants/${testId}`)
+          .expect(404, { error: `Restaurant doesn't exist`})
+      })
+    })
+    })
   })
