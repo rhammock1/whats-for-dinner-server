@@ -20,10 +20,25 @@ const serializeRestaurant = function(restaurant) {
 restaurantsRouter
   .route('/')
   .get((req, res, next) => {
-    const db = req.app.get('db')
+    const db = req.app.get('db');
+    const { style='' } = req.query;
+    if(style === '') {
+      console.log(style);
+    } else if(style !== 'local' || style !== 'chain') {
+      console.log(style)
+      return res.status(400).json({
+        error: 'Style must be local or chain'
+      })
+    } 
     restaurantsService.getAllRestaurants(db)
       .then(restaurants => {
-        res.json(restaurants.map(serializeRestaurant))
+        // res.json(restaurants.map(serializeRestaurant))
+        let filteredRestaurants = restaurants.map(restaurant => {
+          (restaurant.style === style)
+            ? restaurant
+            : console.log('hello')
+          })
+        // return res.status(200).json({ filteredRestaurants })
       })
       .catch(next)
   })

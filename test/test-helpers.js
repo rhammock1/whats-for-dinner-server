@@ -120,7 +120,7 @@ function makeMaliciousRestaurant() {
     phone_number: 'Naughty naughty very naughty <script>alert("xss");</script>',
     web_url: 'Naughty naughty very naughty <script>alert("xss");</script>',
     restaurant_address: 'Naughty naughty very naughty <script>alert("xss");</script>',
-    
+    style: 'local'
   }
   const expectedRestaurant = {
     ...maliciousRestaurant,
