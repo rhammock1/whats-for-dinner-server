@@ -108,6 +108,25 @@ describe('Restaurants Endpoints', function() {
          
       })
     })
+    it('responds with 400 error message when the title or style is missing', () => {
+      const requiredFields = ['title', 'style'];
+      const newRestaurant = {
+        title: 'New Restaurant',
+        phone_number: '1234567',
+        web_url: 'http://random.web',
+        style: 'local',
+        restaurant_address: '123 easy st.'
+      };
+      requiredFields.forEach(field => {
+        delete newRestaurant[field]
+        return supertest(app)
+          .post('/api/restaurants')
+          .send(newRestaurant)
+          .expect(400, {
+            error: `Missing '${field}' in body`
+          })
+      })
+    })
     it('Creates a restaurant, responding with 201 and the new restaurants', () => {
       const newRestaurant = {
         title: 'New Restaurant',
