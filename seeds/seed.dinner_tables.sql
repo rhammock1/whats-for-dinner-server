@@ -16,7 +16,16 @@ VALUES
 ('Panera Bread', '(980) 215-6496', 'https://locations.panerabread.com/nc/charlotte/3625-city-park-dr.html?utm_medium=display-ad&utm_source=paid-digital&utm_campaign=yext&utm_content=local-search', 'chain', '3625 City Park Dr, Charlotte, NC 28217'),
 ('Domino''s Pizza', '(704) 527-7892', 'https://www.dominos.com/en/?utm_source=google&utm_medium=loclist&utm_campaign=localmaps', 'chain', '4755 South Blvd, Charlotte, NC 28217'),
 ('Chick-Fil-A', '(704) 665-6371', 'https://www.chick-fil-a.com/southend', 'chain', '3015 South Blvd, Charlotte, NC 28209'),
-('McDonald''s', '(704) 523-6334', 'https://www.mcdonalds.com/us/en-us/location/NC/CHARLOTTE/4440-S-TRYON-ST/6788.html?cid=RF:YXT:GMB::Clicks', 'chain', '4440 S Tryon St, Charlotte, NC 28210');
+('McDonald''s', '(704) 523-6334', 'https://www.mcdonalds.com/us/en-us/location/NC/CHARLOTTE/4440-S-TRYON-ST/6788.html?cid=RF:YXT:GMB::Clicks', 'chain', '4440 S Tryon St, Charlotte, NC 28210'),
+('Little Village Grill', '(704) 347-2184', 'https://www.facebook.com/littlevillagegrill/', 'local', '710 W Trade St, Charlotte, NC 28202'),
+('VANA', '(980) 819-5913', 'http://vanarestaurant.com/', 'local', '1440 S Tryon St Suite 100, Charlotte, NC 28203'),
+('Mama Ricotta''s', '(704) 343-0148', 'https://www.mamaricottas.com/', 'local', '601 S Kings Dr AA, Charlotte, NC 28204'),
+('NoDa Bodega', '(704) 375-8704', 'http://www.nodabodega.com/', 'local', '1200 E 36th St, Charlotte, NC 28205'),
+('Bao and Broth', '(704) 625-2269', 'http://www.baoandbroth.com/', 'local', '1115 North Brevard Street, Suit #5, Charlotte, NC 28206'),
+('Common Market SouthEnd', '(980) 207-3187', 'https://commonmarketisgood.com/south-end/', 'local', '235 W Tremont Ave, Charlotte, NC 28203'),
+('Rhino Market & Deli', '(704) 375-2036', 'http://rhinomarket.com/', 'local', '1500 W Morehead St Ste E, Charlotte, NC 28208'),
+('Futo Buta', '(704) 376-8400', 'https://futobuta.com/', 'local', '222 E Bland St, Charlotte, NC 28203'),
+('Papi Queso', '(704) 579-1779', 'http://papiquesotruck.com/', 'local', '1115 N Brevard St, Charlotte , NC 28206');
 
 INSERT INTO dinner_recipes (title, content)
 VALUES
