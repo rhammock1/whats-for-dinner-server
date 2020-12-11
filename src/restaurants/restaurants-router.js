@@ -46,6 +46,43 @@ restaurantsRouter
       })
       .catch(next)
   })
+  .post(jsonParser, (req, res, next) => {
+    const { title, phone_number, web_url, style, restaurant_address } = req.body;
+    if(!title) {
+      return res.status(404).json({
+        error: `Missing title in body`
+      })
+    }
+    if(!style) {
+      return res.status(404).json({
+        error: `Missing style in body`
+      })
+    }
+    if(!['local', 'chain'].includes(style)) {
+      return res.status(404).json({
+        error: 'Style must be "local" or "chain"'
+      })
+    }
+    const newRestaurant = {
+      title,
+      phone_number,
+      web_url,
+      style,
+      restaurant_address
+    };
+    const db = req.app.get('db');
+    restaurantsService.insertRestaurant(
+      db,
+      newRestaurant
+    )
+      .then(restaurant => {
+        res.status(201)
+        .location(path.posix.join(req.originalUrl, `/${restaurant.id}`))
+        .json(serializeRestaurant(restaurant))
+      })
+      .catch(next)
+
+  })
 
   restaurantsRouter
     .route('/:restaurantId')

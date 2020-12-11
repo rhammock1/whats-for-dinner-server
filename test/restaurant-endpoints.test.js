@@ -95,7 +95,7 @@ describe('Restaurants Endpoints', function() {
         .expect(201)
         .then(res =>
           supertest(app)
-          .get(`/api/restaurants/${maliciousRestaurant.id}`)
+          .get(`/api/restaurants/${res.body.id}`)
           .expect(200)
           .expect(res => {
             expect(res.body.title).to.eql(expectedRestaurant.title)
@@ -117,7 +117,7 @@ describe('Restaurants Endpoints', function() {
         restaurant_address: '123 easy st.'
       }
       return supertest(app)
-        .post('/api/folders')
+        .post('/api/restaurants')
         .send(newRestaurant)
         .expect(201)
         .expect(res => {
