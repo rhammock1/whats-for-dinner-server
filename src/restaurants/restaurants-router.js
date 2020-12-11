@@ -49,17 +49,17 @@ restaurantsRouter
   .post(jsonParser, (req, res, next) => {
     const { title, phone_number, web_url, style, restaurant_address } = req.body;
     if(!title) {
-      return res.status(404).json({
+      return res.status(400).json({
         error: `Missing 'title' in body`
       })
     }
     if(!style) {
-      return res.status(404).json({
+      return res.status(400).json({
         error: `Missing 'style' in body`
       })
     }
     if(!['local', 'chain'].includes(style)) {
-      return res.status(404).json({
+      return res.status(400).json({
         error: 'Style must be "local" or "chain"'
       })
     }
@@ -76,7 +76,7 @@ restaurantsRouter
       newRestaurant
     )
       .then(restaurant => {
-        res.status(201)
+        return res.status(201)
         .location(path.posix.join(req.originalUrl, `/${restaurant.id}`))
         .json(serializeRestaurant(restaurant))
       })

@@ -78,15 +78,9 @@ describe('Restaurants Endpoints', function() {
       })
     })
   })
-  describe.only('POST /api/restaurants', () => {
+  describe('POST /api/restaurants', () => {
     context(`Given an XSS attack restaurant`, () => {
      const { maliciousRestaurant, expectedRestaurant } = helpers.makeMaliciousRestaurant();
-
-    //  beforeEach('insert malicious restaurant', () => {
-    //    return db
-    //      .into('dinner_restaurants')
-    //      .insert([maliciousRestaurant])
-    //  })
 
      it('removes XSS attack content', () => {
        return supertest(app)
@@ -108,16 +102,19 @@ describe('Restaurants Endpoints', function() {
          
       })
     })
-    it('responds with 400 error message when the title or style is missing', () => {
+    
       const requiredFields = ['title', 'style'];
-      const newRestaurant = {
-        title: 'New Restaurant',
-        phone_number: '1234567',
-        web_url: 'http://random.web',
-        style: 'local',
-        restaurant_address: '123 easy st.'
-      };
+
       requiredFields.forEach(field => {
+        const newRestaurant = {
+          title: 'New Restaurant',
+          phone_number: '1234567',
+          web_url: 'http://random.web',
+          style: 'local',
+          restaurant_address: '123 easy st.'
+      };  
+
+      it('responds with 400 error message when the title or style is missing', () => {
         delete newRestaurant[field]
         return supertest(app)
           .post('/api/restaurants')
@@ -125,8 +122,23 @@ describe('Restaurants Endpoints', function() {
           .expect(400, {
             error: `Missing '${field}' in body`
           })
+        })
       })
+    it('responds with 400 error message when the style !== local or chain', () => {
+        const newRestaurant = {
+        title: 'New Restaurant',
+        phone_number: '1234567',
+        web_url: 'http://random.web',
+        style: 'wrong',
+        restaurant_address: '123 easy st.'
+      };
+        return supertest(app)
+          .post('/api/restaurants')
+          .send(newRestaurant)
+          .expect(400, {
+            error: `Style must be "local" or "chain"`
     })
+  })
     it('Creates a restaurant, responding with 201 and the new restaurants', () => {
       const newRestaurant = {
         title: 'New Restaurant',
