@@ -47,4 +47,29 @@ restaurantsRouter
       .catch(next)
   })
 
+  restaurantsRouter
+    .route('/:restaurantId')
+    .all(checkRestaurantExists)
+    .get((req, res, next) => {
+      res.status(200).json(serializeRestaurant(res.restaurant))
+    })
+
+    async function checkRestaurantExists(req, res, next) {
+      try {
+        const restaurant = await restaurantsService.getById(
+          req.app.get('db'),
+          req.params.restaurantId
+        )
+        if (!restaurant) {
+          return res.status(404).json({
+            error: `Restaurant doesn't exist`
+          })
+        }
+        res.restaurant = restaurant
+        next()
+      } catch(error) {
+        next(error)
+      }
+    }
+
 module.exports = restaurantsRouter;
