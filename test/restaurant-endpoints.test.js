@@ -46,6 +46,7 @@ describe('Restaurants Endpoints', function() {
          .get(`/api/restaurants`)
          .expect(200)
          .expect(res => {
+          //  console.log(res.body)
            expect(res.body[0].title).to.eql(expectedRestaurant.title)
            expect(res.body[0].phone_number).to.eql(expectedRestaurant.phone_number)
            expect(res.body[0].web_url).to.eql(expectedRestaurant.web_url)
@@ -65,6 +66,16 @@ describe('Restaurants Endpoints', function() {
         return supertest(app)
           .get('/api/restaurants')
           .expect(200, testRestaurants)
+      })
+      it('GET /api/restaurants responds with 200 and a filtered list of restaurants when a style query is added', () => {
+        let filteredRestaurants = testRestaurants.filter(restaurant => {
+          if(restaurant.style === 'local') {
+            return restaurant
+          }
+        })
+        return supertest(app)
+          .get('/api/restaurants?style=local')
+          .expect(200, filteredRestaurants)
       })
     })
   })

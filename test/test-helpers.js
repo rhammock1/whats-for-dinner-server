@@ -116,18 +116,20 @@ function makeThingsFixtures() {
 function makeMaliciousRestaurant() {
   const maliciousRestaurant = {
     id: 911,
-    title: 'Naughty naughty very naughty <script>alert("xss");</script>',
-    phone_number: 'Naughty naughty very naughty <script>alert("xss");</script>',
-    web_url: 'Naughty naughty very naughty <script>alert("xss");</script>',
-    restaurant_address: 'Naughty naughty very naughty <script>alert("xss");</script>',
-    style: 'local'
+    title: 'TNaughty naughty very naughty <script>alert("xss");</script>',
+    phone_number: 'PNaughty naughty very naughty <script>alert("xss");</script>',
+    web_url: 'WNaughty naughty very naughty <script>alert("xss");</script>',
+    style: 'local',
+    restaurant_address: 'RNaughty naughty very naughty <script>alert("xss");</script>',
+    
   }
   const expectedRestaurant = {
-    ...maliciousRestaurant,
-    title: 'Naughty naughty very naughty &lt;script&gt;alert(\"xss\");&lt;/script&gt;',
-    phone_number: 'Naughty naughty very naughty &lt;script&gt;alert(\"xss\");&lt;/script&gt;',
-    web_url: 'Naughty naughty very naughty &lt;script&gt;alert(\"xss\");&lt;/script&gt;',
-    restaurant_address: 'Naughty naughty very naughty &lt;script&gt;alert(\"xss\");&lt;/script&gt;',
+    id: 911,
+    title: 'TNaughty naughty very naughty &lt;script&gt;alert(\"xss\");&lt;/script&gt;',
+    phone_number: 'PNaughty naughty very naughty &lt;script&gt;alert(\"xss\");&lt;/script&gt;',
+    web_url: 'WNaughty naughty very naughty &lt;script&gt;alert(\"xss\");&lt;/script&gt;',
+    style: 'local',
+    restaurant_address: 'RNaughty naughty very naughty &lt;script&gt;alert(\"xss\");&lt;/script&gt;',
     
   }
   return {

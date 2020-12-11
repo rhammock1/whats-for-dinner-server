@@ -32,16 +32,17 @@ restaurantsRouter
     }
     restaurantsService.getAllRestaurants(db)
       .then(restaurants => {
-        let filteredRestaurants;
-        filteredRestaurants = restaurants.filter(restaurant => {
+        const cleanRestaurants = restaurants.map(restaurant => serializeRestaurant(restaurant))
+        const filteredRestaurants = cleanRestaurants.filter(restaurant => {
           if(!style) {
-            return restaurant
+             return restaurant 
           }
           if(restaurant.style === style) {
-            return restaurant
+             return restaurant
           }
         });
-          return res.status(200).json({ filteredRestaurants })
+        console.log(filteredRestaurants)
+        return res.status(200).json(filteredRestaurants)
       })
       .catch(next)
   })
