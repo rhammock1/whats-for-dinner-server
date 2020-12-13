@@ -116,7 +116,7 @@ function makeThingsFixtures() {
 function makeMaliciousRestaurant() {
   const maliciousRestaurant = {
     id: 911,
-    title: 'TNaughty naughty very naughty <script>alert("xss");</script>',
+    ingredient: 'TNaughty naughty very naughty <script>alert("xss");</script>',
     phone_number: 'PNaughty naughty very naughty <script>alert("xss");</script>',
     web_url: 'WNaughty naughty very naughty <script>alert("xss");</script>',
     style: 'local',
@@ -138,8 +138,51 @@ function makeMaliciousRestaurant() {
   }
 }
 
+function makeMaliciousRecipe() {
+  const maliciousRecipe = {
+    id: 911,
+    title: 'TNaughty naughty very naughty <script>alert("xss");</script>',
+    content: 'PNaughty naughty very naughty <script>alert("xss");</script>',
+  }
+  const expectedRecipe = {
+    id: 911,
+    title: 'TNaughty naughty very naughty &lt;script&gt;alert(\"xss\");&lt;/script&gt;',
+    content: 'PNaughty naughty very naughty &lt;script&gt;alert(\"xss\");&lt;/script&gt;',
+    
+  }
+  return {
+    maliciousRecipe,
+    expectedRecipe,
+  }
+}
+
+function makeMaliciousIngredient() {
+  const maliciousIngredient = {
+    id: 911,
+    recipe_id: 1,
+    ingredient: 'PNaughty naughty very naughty <script>alert("xss");</script>',
+    unit: 'cup',
+    amount: 1,
+    
+  }
+  const expectedIngredient = {
+    id: 911,
+    recipe_id: 1,
+    ingredient: 'PNaughty naughty very naughty &lt;script&gt;alert(\"xss\");&lt;/script&gt;',
+    unit: 'cup',
+    amount: 1,
+  }
+
+  return {
+    maliciousIngredient,
+    expectedIngredient,
+  }
+}
+
 module.exports = {
   cleanTables,
   makeThingsFixtures,
-  makeMaliciousRestaurant
+  makeMaliciousRestaurant,
+  makeMaliciousRecipe,
+  makeMaliciousIngredient
 }
