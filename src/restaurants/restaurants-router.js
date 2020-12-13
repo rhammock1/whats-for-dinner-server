@@ -88,6 +88,7 @@ restaurantsRouter
     .route('/:restaurantId')
     .all(checkRestaurantExists)
     .get((req, res, next) => {
+      
       res.status(200).json(serializeRestaurant(res.restaurant))
     })
     .delete((req, res, next) => {
@@ -99,6 +100,43 @@ restaurantsRouter
         res.status(204).end()
       })
       .catch(next);
+    })
+    .patch(jsonParser, (req, res, next) => {
+      const { title, phone_number = res.restaurant.phone_number, web_url = res.restaurant.web_url, style, restaurant_address = res.restaurant.restaurant_address } = req.body;
+      
+    if(!title) {
+      return res.status(400).json({
+        error: `Missing 'title' in body`
+      })
+    }
+    if(!style) {
+      return res.status(400).json({
+        error: `Missing 'style' in body`
+      })
+    }
+    if(!['local', 'chain'].includes(style)) {
+      return res.status(400).json({
+        error: 'Style must be "local" or "chain"'
+      })
+    }
+    
+    const updatedRestaurant = {
+      title,
+      phone_number,
+      web_url,
+      style,
+      restaurant_address
+    };
+    const db = req.app.get('db');
+    restaurantsService.updateRestaurant(
+      db,
+      req.params.restaurantId,
+      serializeRestaurant(updatedRestaurant)
+    )
+      .then(() => {
+        return res.status(204).end()
+      })
+      .catch(next)
     })
 
     async function checkRestaurantExists(req, res, next) {

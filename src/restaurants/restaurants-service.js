@@ -23,10 +23,10 @@ const restaurantsService = {
       .where({ id })
       .delete()
   },
-  updateRestaurant(knex, id, newRestaurantId) {
+  updateRestaurant(knex, id, newRestaurantFields) {
     return knex('dinner_restaurants')
       .where({ id })
-      .update(newRestaurantId)
+      .update(newRestaurantFields)
   },
 };
 

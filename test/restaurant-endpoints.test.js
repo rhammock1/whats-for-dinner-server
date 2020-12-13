@@ -279,21 +279,49 @@ describe('Restaurants Endpoints', function() {
             .expect(expectedRestaurant)
           )
       })
-    it(`responds with 400 when no required fields supplied`, () => {
-     const idToUpdate = 2
-     return supertest(app)
-       .patch(`/api/restaurants/${idToUpdate}`)
-       .send({ irrelevantField: 'foo' })
-       .expect(400, {
-         error: {
-           message: `Request body must contain at least title`
-         }
-       })
+    const requiredFields = ['title', 'style'];
+
+      requiredFields.forEach(field => {
+        const idToUpdate = 2;
+        const updatedRestaurant = {
+        title: 'Updated Restaurant',
+        phone_number: '1234567',
+        web_url: 'http://random.web',
+        style: 'local',
+        restaurant_address: '123 easy st.'
+      }
+
+      it('responds with 400 error message when the title or style is missing', () => {
+        delete updatedRestaurant[field]
+        return supertest(app)
+          .patch(`/api/restaurants/${idToUpdate}`)
+          .send(updatedRestaurant)
+          .expect(400, {
+            error: `Missing '${field}' in body`
+          })
+        })
+      })
+    it('responds with 400 error message when the style !== local or chain', () => {
+      const idToUpdate = 2;
+      const newRestaurant = {
+        title: 'New Restaurant',
+        phone_number: '1234567',
+        web_url: 'http://random.web',
+        style: 'wrong',
+        restaurant_address: '123 easy st.'
+      };
+        return supertest(app)
+          .patch(`/api/restaurants/${idToUpdate}`)
+          .send(newRestaurant)
+          .expect(400, {
+            error: `Style must be "local" or "chain"`
     })
-        it(`responds with 204 when updating only a subset of fields`, () => {
+  })
+    it(`responds with 204 when updating only a subset of fields`, () => {
       const idToUpdate = 2
       const updateRestaurant = {
         title: 'updated restautant title',
+        style: 'local',
       }
       const expectedRestaurant = {
         ...testRestaurants[idToUpdate - 1],
