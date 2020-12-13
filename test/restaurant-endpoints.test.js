@@ -222,5 +222,23 @@ describe('Restaurants Endpoints', function() {
           .expect(404, { error: `Restaurant doesn't exist` })
       })
     })
+    context('Given there are restaurants in the database', () => {
+      beforeEach('insert restaurants', () => {
+        return db
+          .into('dinner_restaurants')
+          .insert(testRestaurants)
+      })
+      it('responds with 204 and removes the restaurant', () => {
+        const idToRemove = 2;
+        const expectedRestaurants = testRestaurants.filter(restaurant => restaurant.id !== idToRemove)
+        return supertest(app)
+          .delete(`/api/restaurants/${idToRemove}`)
+          .expect(204)
+          .then(res => 
+            supertest(app)
+              .get(`/api/restaurants`)
+              .expect(expectedRestaurants))
+      })
+    })
   })
 })
