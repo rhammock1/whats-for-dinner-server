@@ -213,7 +213,7 @@ describe('Restaurants Endpoints', function() {
      })
     })
   })
-  describe.only('DELETE /api/restaurants/:restaurantId', () => {
+  describe('DELETE /api/restaurants/:restaurantId', () => {
     context('Given no restaurants', () => {
       it('responds with 404', () => {
         const restaurantId = 123456;
@@ -238,6 +238,80 @@ describe('Restaurants Endpoints', function() {
             supertest(app)
               .get(`/api/restaurants`)
               .expect(expectedRestaurants))
+      })
+    })
+  })
+  describe.only('PATCH /api/restaurants/:restaurantId', () => {
+    context('Given no restaurants', () => {
+      it('responds with 404', () => {
+        const restaurantId = 123456;
+        return supertest(app)
+          .patch(`/api/restaurants/${restaurantId}`)
+          .expect(404, { error: `Restaurant doesn't exist` })
+      })
+    })
+    context('Given there are restaurants in the database' , () => {
+      beforeEach('insert restaurants', () => {
+        return db
+          .into('dinner_restaurants')
+          .insert(testRestaurants)
+      })
+      it('responds with 204 and updates the restaurant', () => {
+        const idToUpdate = 2;
+        const updatedRestaurant = {
+        title: 'Updated Restaurant',
+        phone_number: '1234567',
+        web_url: 'http://random.web',
+        style: 'local',
+        restaurant_address: '123 easy st.'
+      }
+      const expectedRestaurant = {
+        ...testRestaurants[idToUpdate - 1],
+        ...updatedRestaurant
+      }
+      return supertest(app)
+        .patch(`/api/restaurants/${idToUpdate}`)
+        .send(updatedRestaurant)
+        .expect(204)
+        .then(res => 
+          supertest(app)
+            .get(`/api/restaurants/${idToUpdate}`)
+            .expect(expectedRestaurant)
+          )
+      })
+    it(`responds with 400 when no required fields supplied`, () => {
+     const idToUpdate = 2
+     return supertest(app)
+       .patch(`/api/restaurants/${idToUpdate}`)
+       .send({ irrelevantField: 'foo' })
+       .expect(400, {
+         error: {
+           message: `Request body must contain at least title`
+         }
+       })
+    })
+        it(`responds with 204 when updating only a subset of fields`, () => {
+      const idToUpdate = 2
+      const updateRestaurant = {
+        title: 'updated restautant title',
+      }
+      const expectedRestaurant = {
+        ...testRestaurants[idToUpdate - 1],
+        ...updateRestaurant
+      }
+
+      return supertest(app)
+        .patch(`/api/restaurants/${idToUpdate}`)
+        .send({
+          ...updateRestaurant,
+          fieldToIgnore: 'should not be in GET response'
+        })
+        .expect(204)
+        .then(res =>
+          supertest(app)
+            .get(`/api/restaurants/${idToUpdate}`)
+            .expect(expectedRestaurant)
+        )
       })
     })
   })
