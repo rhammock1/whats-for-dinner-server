@@ -213,4 +213,14 @@ describe('Restaurants Endpoints', function() {
      })
     })
   })
+  describe.only('DELETE /api/restaurants/:restaurantId', () => {
+    context('Given no restaurants', () => {
+      it('responds with 404', () => {
+        const restaurantId = 123456;
+        return supertest(app)
+          .delete(`/api/restaurants/${restaurantId}`)
+          .expect(404, { error: `Restaurant doesn't exist` })
+      })
+    })
+  })
 })

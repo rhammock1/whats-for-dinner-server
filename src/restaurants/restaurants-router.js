@@ -90,6 +90,16 @@ restaurantsRouter
     .get((req, res, next) => {
       res.status(200).json(serializeRestaurant(res.restaurant))
     })
+    .delete((req, res, next) => {
+      const db = req.app.get('db');
+      restaurantsService.deleteRestaurant(
+        db, req.params.restaurantId
+      )
+      .then(() => {
+        res.status(204).end()
+      })
+      .catch(next);
+    })
 
     async function checkRestaurantExists(req, res, next) {
       try {
