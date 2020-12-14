@@ -102,7 +102,11 @@ restaurantsRouter
       .catch(next);
     })
     .patch(jsonParser, (req, res, next) => {
-      const { title, phone_number = res.restaurant.phone_number, web_url = res.restaurant.web_url, style, restaurant_address = res.restaurant.restaurant_address } = req.body;
+      const { 
+        title, 
+        phone_number = res.restaurant.phone_number, web_url = res.restaurant.web_url, 
+        style, 
+        restaurant_address = res.restaurant.restaurant_address } = req.body;
       
     if(!title) {
       return res.status(400).json({
