@@ -57,7 +57,7 @@ recipesRouter
         )
         
         const fullRecipe = {
-          ...{ingredients},
+          ...{ ingredients },
           ...res.recipe
         }
         res.status(200).json(fullRecipe)
