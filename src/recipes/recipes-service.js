@@ -1,3 +1,5 @@
+const xss = require('xss');
+
 const recipesService = {
   getAllRecipes(knex) {
     return knex.select('*').from('dinner_recipes')
@@ -28,6 +30,13 @@ const recipesService = {
       .where({ id })
       .update(newRecipeField)
   },
+  serializeRecipe(recipe) {
+  return {
+    id: recipe.id,
+    title: xss(recipe.title),
+    content: xss(recipe.content)
+  }
+}
   
   
 };

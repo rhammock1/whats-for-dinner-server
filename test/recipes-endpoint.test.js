@@ -105,5 +105,16 @@ describe.only('Recipes endpoint', function() {
       })
     })
   })
-  
+  describe('GET /api/recipes/:recipeId', () => {
+    context('Given there are no recieps', () => {
+      it('responds with 404', () => {
+        const recipeId = 123456;
+        return supertest(app)
+          .get(`/api/recipes/${recipeId}`)
+          .expect(404, {
+            error: `Recipe doesn't exist`
+          })
+      })
+    })
+  })
 })

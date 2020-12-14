@@ -1,3 +1,5 @@
+const xss = require('xss');
+
 const ingredientsSerivice = {
   getIngredients(knex, recipeId) {
     return knex
@@ -31,6 +33,14 @@ const ingredientsSerivice = {
       .where({ id })
       .update(newIngredientField)
   },
+  serializeIngredient(ingredient) {
+    return {
+      id: ingredient.id,
+      ingredient: xss(ingredient.ingredient),
+      unit: ingredient.unit,
+      amount: xss(ingredient.amount),
+      recipe_id: ingredient.recipe_id
+    }}
 };
 
 module.exports = ingredientsSerivice;
