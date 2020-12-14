@@ -5,6 +5,7 @@ const helmet = require('helmet');
 const { NODE_ENV } = require('./config');
 require('dotenv').config();
 const restaurantsRouter = require('./restaurants/restaurants-router');
+const recipesRouter = require('./recipes/recipes-router');
 
 const app = express();
 
@@ -15,6 +16,7 @@ app.use(helmet());
 app.use(cors());
 
 app.use('/api/restaurants', restaurantsRouter);
+app.use('/api/recipes', recipesRouter);
 
 app.use(function errorHandler(error, req, res, next) {
   let response;
