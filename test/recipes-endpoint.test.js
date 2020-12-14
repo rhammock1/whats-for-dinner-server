@@ -66,5 +66,44 @@ describe.only('Recipes endpoint', function() {
       })
     })
   })
+  describe('POST /api/recipes', () => {
+    context('Given a xss attack recipe', () => {
+      const { maliciousRecipe, expectedRecipe } = helpers.makeMaliciousRecipe();
 
+      it('removes xss attack content', () => {
+        return supertest(app)
+          .post('/api/recipes')
+          .send(maliciousRecipe)
+          .expect(201)
+          .then(res => 
+            supertest(app)
+              .get(`/api/recipes/${res.body.id}`)
+              .expect(200)
+              .expect(res => {
+                expect(res.body.title).to.eql(expectedRecipe.title)
+                expect(res.body.content).to.eql(expectedRecipe.content)
+              })
+              
+          )
+          
+      })
+    })
+    const requiredFields = ['title', 'content'];
+    requiredFields.forEach(field => {
+      const newRecipe = {
+        title: 'New Recipe',
+        content: 'Step 1: STep 2:',
+      };
+      it('responds with 400 and an error message when the title or content is missing', () => {
+        delete newRecipe[field]
+        return supertest(app)
+          .post('/api/recipes')
+          .send(newRecipe)
+          .expect(400, {
+            error: `Missing '${field}' in body`
+          })
+      })
+    })
+  })
+  
 })

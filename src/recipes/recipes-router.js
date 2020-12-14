@@ -24,5 +24,29 @@ recipesRouter
       })
       .catch(next)
   })
+  .post(jsonParser, (req, res, next) => {
+    const { title, content } = req.body;
+    const newRecipe = { title, content };
+   
+    for(const [key, value] of Object.entries(newRecipe)) {
+      if(value == null) {
+        return res.status(400).json({
+          error: `Missing '${key}' in body`
+        })
+      }
+    }
+    
+    const db = req.app.get('db');
+    recipesService.insertRecipe(
+      db,
+      serializeRecipe(newRecipe)
+    )
+    .then(recipe => {
+      res.status(201)
+        .location(path.posix.join(req.originalUrl, `/${recipe.id}`))
+        .json(recipe)
+    })
+    .catch(next)
+  })
 
   module.exports = recipesRouter;
