@@ -116,7 +116,7 @@ function makeThingsFixtures() {
 function makeMaliciousRestaurant() {
   const maliciousRestaurant = {
     id: 911,
-    ingredient: 'TNaughty naughty very naughty <script>alert("xss");</script>',
+    title: 'TNaughty naughty very naughty <script>alert("xss");</script>',
     phone_number: 'PNaughty naughty very naughty <script>alert("xss");</script>',
     web_url: 'WNaughty naughty very naughty <script>alert("xss");</script>',
     style: 'local',

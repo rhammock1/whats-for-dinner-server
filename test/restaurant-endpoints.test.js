@@ -241,7 +241,7 @@ describe('Restaurants Endpoints', function() {
       })
     })
   })
-  describe.only('PATCH /api/restaurants/:restaurantId', () => {
+  describe('PATCH /api/restaurants/:restaurantId', () => {
     context('Given no restaurants', () => {
       it('responds with 404', () => {
         const restaurantId = 123456;
