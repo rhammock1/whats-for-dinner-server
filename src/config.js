@@ -1,5 +1,5 @@
 const dbURL = (process.env.NODE_ENV === 'development') 
-    ? 'postgresql://dunder_mifflin@localhost/dinner'
+    ? 'postgres://dunder_mifflin@localhost/dinner'
     : process.env.DATABASE_URL
 
 module.exports = {

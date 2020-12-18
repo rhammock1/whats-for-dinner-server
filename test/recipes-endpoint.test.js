@@ -3,7 +3,7 @@ const supertest = require('supertest');
 const app = require('../src/app');
 const helpers = require('./test-helpers');
 
-describe.only('Recipes endpoint', function() {
+describe('Recipes endpoint', function() {
   let db;
 
   const {

@@ -52,7 +52,7 @@ recipesRouter
       res.recipe.id
     )
       .then(ingredients => {
-        console.log(ingredients)
+        
         ingredients.forEach(ingredient => ingredientsSerivice.serializeIngredient(ingredient)
         )
         
@@ -62,8 +62,21 @@ recipesRouter
         }
         res.status(200).json(fullRecipe)
       })
-
   })
+
+//  recipesRouter
+//    .route('/:recipeId/:ingredientId)
+//    .post
+//    .patch
+//    .delete 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
 
   async function checkRecipeExists(req, res, next) {
       try {

@@ -41,7 +41,7 @@ restaurantsRouter
              return restaurant
           }
         });
-        console.log(filteredRestaurants)
+        
         return res.status(200).json(filteredRestaurants)
       })
       .catch(next)
