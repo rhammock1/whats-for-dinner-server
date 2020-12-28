@@ -1,4 +1,4 @@
-const AuthService = require('../auth/auth-service');
+const LoginService = require('../login/login-service');
 
 function requireAuth(req, res, next) {
   const authToken = req.get('Authorization') || '';
@@ -12,9 +12,9 @@ function requireAuth(req, res, next) {
   }
 
   try {
-    const payload = AuthService.verifyJWT(bearerToken)
+    const payload = LoginService.verifyJWT(bearerToken)
 
-    AuthService.getUserWithUserName(
+    LoginService.getUserWithUserName(
       req.app.get('db'),
       payload.sub,
     )
