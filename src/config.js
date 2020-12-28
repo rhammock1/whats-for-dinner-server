@@ -6,4 +6,5 @@ module.exports = {
   PORT: process.env.PORT || 8080,
   NODE_ENV: process.env.NODE_ENV || 'development',
   DATABASE_URL: dbURL,
+  JWT_SECRET: process.env.JWT_SECRET || 's0m3th1ng-s3cr3t',
 };
