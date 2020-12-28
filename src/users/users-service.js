@@ -10,7 +10,7 @@ const UsersService = {
       .first()
       .then(user => !!user)
   },
-  inserUser(db, newUser) {
+  insertUser(db, newUser) {
     return db
       .insert(newUser)
       .into('dinner_users')
@@ -34,6 +34,12 @@ const UsersService = {
   },
   hashPassword(password) {
     return bcrypt.hash(password, 12)
+  },
+  validateUserName(user_name) {
+    if (user_name.startsWith(' ') || user_name.endsWith(' ')) {
+      return 'Password must not start or end with empty spaces'
+    }
+    return null;
   },
   serializeUser(user) {
     return {
