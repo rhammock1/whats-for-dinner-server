@@ -1,3 +1,5 @@
+const xss = require('xss');
+
 const protectedService = {
   getUsersThings(knex, user_id, table) {
     return knex

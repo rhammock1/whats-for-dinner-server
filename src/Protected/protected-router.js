@@ -14,7 +14,8 @@ protectedRouter
   .all(requireAuth)
   .get((req, res, next) => {
     protectedService.getUsersThings(req.app.get('db'), req.params.user_id, restaurants)
-    .then(restaurants => res.json(protectedService.serializeThing))
+    .then(restaurants => {
+      res.json(restaurants.map(protectedService.serializeThing))})
     .catch(next)
   })
   // .post(jsonParser, (req, res, next) => {
@@ -47,7 +48,7 @@ protectedRouter
   .all(requireAuth)
   .get((req, res, next) => {
     protectedService.getUsersThings(req.app.get('db'), req.params.user_id, recipes)
-    .then(recipes => res.json(protectedService.serializeThing))
+    .then(recipes => res.json(recipes.map(protectedService.serializeThing)))
     .catch(next)
   })
 
@@ -56,7 +57,9 @@ protectedRouter
   .all(requireAuth)
   .get((req, res, next) => {
     protectedService.getUsersThings(req.app.get('db'), req.params.user_id, favorites)
-    .then(favorites => res.json(favorites.map(protectedService.serializeThing)))
+    .then(favorites => {
+      
+      res.json(favorites.map(protectedService.serializeThing))})
     .catch(next)
   })
 
