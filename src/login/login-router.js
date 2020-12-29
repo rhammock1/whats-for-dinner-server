@@ -40,7 +40,7 @@ loginRouter
             console.log(dbUser)
             res.send({
               authToken: LoginService.createJWT(sub, payload),
-              first_name: dbUser.first_name,
+              user_name: dbUser.user_name,
             })
           })
       })
