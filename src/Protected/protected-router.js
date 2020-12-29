@@ -1,6 +1,6 @@
 const express = require('express');
 const path = require('path');
-const protectedService = require('./protected-service');
+const protectedService = require('./protected-services');
 const xss = require('xss');
 const protectedRouter = express.Router();
 const jsonParser = express.json();
@@ -14,4 +14,4 @@ protectedRouter
     
   })
 
-export default protectedRouter;
+module.exports = protectedRouter;

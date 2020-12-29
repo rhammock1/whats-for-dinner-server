@@ -7,4 +7,4 @@ const protectedService = {
   },
 }
 
-export default protectedService;
+module.exports = protectedService;

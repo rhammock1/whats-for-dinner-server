@@ -8,7 +8,7 @@ const restaurantsRouter = require('./restaurants/restaurants-router');
 const recipesRouter = require('./recipes/recipes-router');
 const loginRouter = require('./login/login-router');
 const usersRouter = require('./users/users-router');
-const { default: protectedRouter } = require('./Protected/protected-router');
+const protectedRouter = require('./Protected/protected-router');
 
 const app = express();
 
