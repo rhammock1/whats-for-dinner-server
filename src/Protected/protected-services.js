@@ -24,32 +24,32 @@ const protectedService = {
       }
     }
   },
-  insertThing(knex, newThing, table) {
-  return knex
-    .insert(newThing)
-    .into(table)
-    .returning('*')
-    .then(rows => {
-      return rows[0]
-    })
-  },
-  getById(knex, id, table) {
-    return knex
-      .from(table)
-      .select('*')
-      .where('id', id)
-      .first()
-  },
-    deleteThing(knex, id, table) {
-    return knex(table)
-      .where({ id })
-      .delete()
-  },
-  updateThing(knex, id, newThingField) {
-    return knex(table)
-      .where({ id })
-      .update(newThingField)
-  },
+  // insertThing(knex, newThing, table) {
+  // return knex
+  //   .insert(newThing)
+  //   .into(table)
+  //   .returning('*')
+  //   .then(rows => {
+  //     return rows[0]
+  //   })
+  // },
+  // getById(knex, id, table) {
+  //   return knex
+  //     .from(table)
+  //     .select('*')
+  //     .where('id', id)
+  //     .first()
+  // },
+  //   deleteThing(knex, id, table) {
+  //   return knex(table)
+  //     .where({ id })
+  //     .delete()
+  // },
+  // updateThing(knex, id, newThingField) {
+  //   return knex(table)
+  //     .where({ id })
+  //     .update(newThingField)
+  // },
 }
 
 module.exports = protectedService;
