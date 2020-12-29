@@ -161,12 +161,6 @@ restaurantsRouter
       }
     }
 
-    restaurantsRouter
-      .route('/:user_id/restaurants')
-      .get((req, res, next) => {
-        const restaurants = restaurantsService.getUsersRestaurants(req.app.get('db'), req.params.user_id)
-          .then(restaurants => res.status(200).json(restaurants))
-        
-      })
+
 
 module.exports = restaurantsRouter;
