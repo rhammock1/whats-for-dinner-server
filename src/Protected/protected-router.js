@@ -13,5 +13,18 @@ protectedRouter
     .then(restaurants => res.status(200).json(restaurants))
     
   })
-
+protectedRouter
+  .route('/:user_id/recipes')
+  .get(requireAuth, (req, res, next) => {
+    protectedService.getUsersRecipes(req.app.get('db'), req.params.user_id)
+    .then(recipes => res.status(200).json(recipes))
+    
+  })
+protectedRouter
+  .route('/:user_id/favorites')
+  .get(requireAuth, (req, res, next) => {
+    protectedService.getUsersFavorites(req.app.get('db'), req.params.user_id)
+    .then(favorites => res.json(favorites.map(protectedService.serializeThing)))
+    
+  })
 module.exports = protectedRouter;
