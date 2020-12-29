@@ -1,18 +1,12 @@
 const protectedService = {
-  getUsersRestaurants(knex, user_id) {
+  getUsersThings(knex, user_id, table) {
     return knex
       .select('*')
-      .from('dinner_restaurants')
-      .where({user_id})
-  },
-  getUsersRecipes(knex, user_id) {
-    return knex
-      .select('*')
-      .from('dinner_recipes')
+      .from(table)
       .where({user_id})
   },
   serializeThing(thing) {
-    if(thing.what_it_is === 'restaurant') {
+    if(thing.what_it_is === 'restaurant' || thing.hasOwnProperty('style')) {
       return {
         id: thing.id,
         title: xss(thing.title),
@@ -29,6 +23,32 @@ const protectedService = {
         content: xss(thing.content)
       }
     }
+  },
+  insertThing(knex, newThing, table) {
+  return knex
+    .insert(newThing)
+    .into(table)
+    .returning('*')
+    .then(rows => {
+      return rows[0]
+    })
+  },
+  getById(knex, id, table) {
+    return knex
+      .from(table)
+      .select('*')
+      .where('id', id)
+      .first()
+  },
+    deleteThing(knex, id, table) {
+    return knex(table)
+      .where({ id })
+      .delete()
+  },
+  updateThing(knex, id, newThingField) {
+    return knex(table)
+      .where({ id })
+      .update(newThingField)
   },
 }
 
