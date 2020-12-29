@@ -2,6 +2,12 @@ const restaurantsService = {
   getAllRestaurants(knex) {
     return knex.select('*').from('dinner_restaurants')
   },
+  getUsersRestaurants(knex, user_id) {
+    return knex
+      .select('*')
+      .from('dinner_restaurants')
+      .where({user_id})
+  },
   insertRestaurant(knex, newRestaurant) {
     return knex
       .insert(newRestaurant)
