@@ -59,8 +59,39 @@ protectedRouter
     protectedService.getUsersThings(req.app.get('db'), req.params.user_id, favorites)
     .then(favorites => {
       
-      res.json(favorites.map(protectedService.serializeThing))})
+      res.json(favorites)})
     .catch(next)
+  })
+  .post(jsonParser, (req, res, next) => {
+    const {what_it_is, user_id, item_id } = req.body;
+    const newFavorite = {
+      what_it_is,
+      user_id,
+      item_id,
+    }
+  
+    for(const [key, value] of Object.entries(newFavorite)) {
+        if(value == null) {
+          return res.status(400).json({
+            error: `Missing '${key}' in body`
+          })
+        }
+      }
+    if(what_it_is != 'restaurant' && what_it_is != 'recipe') {
+      return res.status(400).json({
+        error: `what_it_is must be either restaurant or recipe`
+      })
+    }
+    protectedService.insertNewFavorite(
+      req.app.get('db'),
+      newFavorite
+    )
+      .then(favorite => {
+        return res.status(201)
+          .location(path.posix.join(req.originalUrl, `/${favorite.id}`))
+          .json(favorite)
+      })
+      .catch(next)
   })
 
 module.exports = protectedRouter;

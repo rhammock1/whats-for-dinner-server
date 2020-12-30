@@ -8,7 +8,7 @@ const protectedService = {
       .where({user_id})
   },
   serializeThing(thing) {
-    if(thing.what_it_is === 'restaurant' || thing.hasOwnProperty('style')) {
+    if(thing.hasOwnProperty('style')) {
       return {
         id: thing.id,
         title: xss(thing.title),
@@ -26,15 +26,15 @@ const protectedService = {
       }
     }
   },
-  // insertThing(knex, newThing, table) {
-  // return knex
-  //   .insert(newThing)
-  //   .into(table)
-  //   .returning('*')
-  //   .then(rows => {
-  //     return rows[0]
-  //   })
-  // },
+  insertNewFavorite(knex, newFavorite) {
+  return knex
+    .insert(newFavorite)
+    .into('user_favorites')
+    .returning('*')
+    .then(rows => {
+      return rows[0]
+    })
+  },
   // getById(knex, id, table) {
   //   return knex
   //     .from(table)
