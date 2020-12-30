@@ -2,6 +2,7 @@ const express = require('express');
 const path = require('path');
 const restaurantsService = require('./restaurants-service');
 const xss = require('xss');
+const { requireAuth } = require('../middleware/jwt-auth');
 const restaurantsRouter = express.Router();
 const jsonParser = express.json();
 
@@ -14,6 +15,7 @@ const serializeRestaurant = function(restaurant) {
   web_url: xss(restaurant.web_url),
   style: restaurant.style,
   restaurant_address: xss(restaurant.restaurant_address),
+  user_id: restaurant.user_id,
   }
 }
 
@@ -46,8 +48,9 @@ restaurantsRouter
       })
       .catch(next)
   })
-  .post(jsonParser, (req, res, next) => {
-    const { title, phone_number, web_url, style, restaurant_address } = req.body;
+  .post(requireAuth, jsonParser, (req, res, next) => {
+    const { title, phone_number, web_url, style, restaurant_address, user_id } = req.body;
+    console.log(user_id)
     if(!title) {
       return res.status(400).json({
         error: `Missing 'title' in body`
@@ -68,7 +71,8 @@ restaurantsRouter
       phone_number,
       web_url,
       style,
-      restaurant_address
+      restaurant_address,
+      user_id
     };
     const db = req.app.get('db');
     restaurantsService.insertRestaurant(

@@ -34,7 +34,8 @@ const recipesService = {
   return {
     id: recipe.id,
     title: xss(recipe.title),
-    content: xss(recipe.content)
+    content: xss(recipe.content),
+    user_id: recipe.user_id
   }
 }
   

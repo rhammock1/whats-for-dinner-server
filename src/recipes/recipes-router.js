@@ -2,6 +2,7 @@ const express = require('express');
 const path = require('path');
 const recipesService = require('./recipes-service');
 const ingredientsSerivice = require('./ingredients-service');
+const { requireAuth } = require('../middleware/jwt-auth');
 
 const recipesRouter = express.Router();
 const jsonParser = express.json();
@@ -19,8 +20,8 @@ recipesRouter
       .catch(next)
   })
   .post(jsonParser, (req, res, next) => {
-    const { title, content } = req.body;
-    const newRecipe = { title, content };
+    const { title, content, user_id } = req.body;
+    const newRecipe = { title, content, user_id };
    
     for(const [key, value] of Object.entries(newRecipe)) {
       if(value == null) {
@@ -62,6 +63,11 @@ recipesRouter
         }
         res.status(200).json(fullRecipe)
       })
+  })
+  .post(requireAuth, jsonParser, (req, res, next) => {
+    const { ingredients } = req.body;
+    console.log(ingredients)
+    
   })
 
 //  recipesRouter

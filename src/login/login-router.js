@@ -41,6 +41,7 @@ loginRouter
             res.send({
               authToken: LoginService.createJWT(sub, payload),
               user_name: dbUser.user_name,
+              id: dbUser.id,
             })
           })
       })
