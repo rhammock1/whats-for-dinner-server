@@ -65,9 +65,33 @@ recipesRouter
       })
   })
   .post(requireAuth, jsonParser, (req, res, next) => {
-    const { ingredients } = req.body;
-    console.log(ingredients)
+    const ingredients = req.body;
     
+    ingredients.map(ingredient => {
+      for(const [key, value] of Object.entries(ingredient)) {
+        if(value == null) {
+          return res.status(400).json({
+            error: `Missing '${key}' in body`
+          })
+        }
+      }
+      ingredientsSerivice.serializeIngredient(ingredient)
+    })
+    const ingredientsToInsert = ingredients.map(ingredient => ({
+      amount: ingredient.amount,
+      unit: ingredient.unit,
+      ingredient: ingredient.ingredient,
+      recipe_id: ingredient.recipe_id
+      }))
+    ingredientsSerivice.insertIngredient(req.app.get('db'), ingredientsToInsert)
+      .then(ingredient => {
+        return res.status(201)
+          .location(path.posix.join(req.originalUrl, `/${ingredient.recipe_id}`))
+          .json(ingredient)
+      })
+      .catch(next)
+      
+
   })
 
 //  recipesRouter

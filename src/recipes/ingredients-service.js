@@ -37,7 +37,7 @@ const ingredientsSerivice = {
     return {
       id: ingredient.id,
       ingredient: xss(ingredient.ingredient),
-      unit: ingredient.unit,
+      unit: xss(ingredient.unit),
       amount: xss(ingredient.amount),
       recipe_id: ingredient.recipe_id
     }}
