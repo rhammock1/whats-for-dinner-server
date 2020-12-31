@@ -1,3 +1,6 @@
+const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
+
 
 function makeRestaurantsArray() {
   return [
@@ -8,6 +11,7 @@ function makeRestaurantsArray() {
       web_url: 'https://www.google.com',
       style: 'local',
       restaurant_address: '123 Easy st, Main, YT 12345',
+      user_id: 1,
     },
     {
       id: 2,
@@ -16,6 +20,7 @@ function makeRestaurantsArray() {
       web_url: 'https://www.google.com',
       style: 'chain',
       restaurant_address: '123 Easy st, Main, YT 12345',
+      user_id: 1,
     },
     {
       id: 3,
@@ -24,6 +29,7 @@ function makeRestaurantsArray() {
       web_url: 'https://www.google.com',
       style: 'local',
       restaurant_address: '123 Easy st, Main, YT 12345',
+      user_id: 1,
     }
   ]
 };
@@ -34,16 +40,19 @@ function makeRecipesArray() {
       id: 1,
       title: 'Test recipe1',
       content: 'TEST content',
+      user_id: 1,
     },
     {
       id: 2,
       title: 'Test recipe2',
-      content: 'TEST content'
+      content: 'TEST content',
+      user_id: 1,
     },
     {
       id: 3,
       title: 'Test recipe3',
-      content: 'TEST content'
+      content: 'TEST content',
+      user_id: 1,
     },
   ]
 };
@@ -100,17 +109,39 @@ function cleanTables(db) {
     `TRUNCATE
       dinner_restaurants,
       dinner_recipes,
-      recipe_ingredients
+      recipe_ingredients,
+      dinner_users
       RESTART IDENTITY CASCADE`
   )
+}
+function makeUser() {
+  const testUser =  {
+      id: 1,
+      user_name: 'test-user-1',
+      first_name: 'Test user 1',
+      password: bcrypt.hashSync('password', 1),
+      date_created: new Date('2029-01-22T16:28:32.615Z'),
+    }
+    return testUser;
+
 }
 
 function makeThingsFixtures() {
   const testRestaurants = makeRestaurantsArray()
   const testRecipes = makeRecipesArray()
   const testIngredients = makeIngredientsArray()
-  return { testRestaurants, testRecipes, testIngredients }
+  const testUser =  makeUser()
+  return { testRestaurants, testRecipes, testIngredients, testUser }
 
+}
+
+
+function makeAuthHeader(user, secret = process.env.JWT_SECRET) {
+  const token = jwt.sign({ user_id: user.id }, secret, {
+    subject: user.user_name,
+    algorithm: 'HS256',
+  })
+  return `Bearer ${token}`
 }
 
 function makeMaliciousRestaurant() {
@@ -121,7 +152,7 @@ function makeMaliciousRestaurant() {
     web_url: 'WNaughty naughty very naughty <script>alert("xss");</script>',
     style: 'local',
     restaurant_address: 'RNaughty naughty very naughty <script>alert("xss");</script>',
-    
+    user_id: 1,
   }
   const expectedRestaurant = {
     id: 911,
@@ -130,7 +161,7 @@ function makeMaliciousRestaurant() {
     web_url: 'WNaughty naughty very naughty &lt;script&gt;alert(\"xss\");&lt;/script&gt;',
     style: 'local',
     restaurant_address: 'RNaughty naughty very naughty &lt;script&gt;alert(\"xss\");&lt;/script&gt;',
-    
+    user_id: 1,
   }
   return {
     maliciousRestaurant,
@@ -143,12 +174,13 @@ function makeMaliciousRecipe() {
     id: 911,
     title: 'TNaughty naughty very naughty <script>alert("xss");</script>',
     content: 'PNaughty naughty very naughty <script>alert("xss");</script>',
+    user_id: 1,
   }
   const expectedRecipe = {
     id: 911,
     title: 'TNaughty naughty very naughty &lt;script&gt;alert(\"xss\");&lt;/script&gt;',
     content: 'PNaughty naughty very naughty &lt;script&gt;alert(\"xss\");&lt;/script&gt;',
-    
+    user_id: 1,
   }
   return {
     maliciousRecipe,
@@ -184,5 +216,6 @@ module.exports = {
   makeThingsFixtures,
   makeMaliciousRestaurant,
   makeMaliciousRecipe,
-  makeMaliciousIngredient
+  makeMaliciousIngredient,
+  makeAuthHeader
 }

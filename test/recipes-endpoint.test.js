@@ -1,5 +1,5 @@
 const knex = require('knex');
-const supertest = require('supertest');
+// const supertest = require('supertest');
 const app = require('../src/app');
 const helpers = require('./test-helpers');
 
@@ -8,7 +8,8 @@ describe('Recipes endpoint', function() {
 
   const {
     testRecipes,
-    testIngredients
+    testIngredients,
+    testUser
   } = helpers.makeThingsFixtures()
 
   before('make knex instance', () => {
@@ -24,8 +25,14 @@ describe('Recipes endpoint', function() {
   before('cleanup', () => helpers.cleanTables(db))
 
   afterEach('cleanup', () => helpers.cleanTables(db))
+  beforeEach('insert testUser', () => {
+      return db
+        .into('dinner_users')
+        .insert(testUser)
+    })
 
   describe('GET /api/recipes', () => {
+    
     context('Given there are no recipes', () => {
       it('responds with 200 and an empty list', () => {
         return supertest(app)

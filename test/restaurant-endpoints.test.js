@@ -1,5 +1,5 @@
 const knex = require('knex');
-const supertest = require('supertest');
+// const supertest = require('supertest');
 const app = require('../src/app')
 const helpers = require('./test-helpers')
 
@@ -7,7 +7,7 @@ describe('Restaurants Endpoints', function() {
   let db;
 
   const {
-    testRestaurants,
+    testRestaurants, testUser
   } = helpers.makeThingsFixtures()
 
   before('make knex instance', () => {
@@ -23,8 +23,14 @@ describe('Restaurants Endpoints', function() {
   before('cleanup', () => helpers.cleanTables(db))
 
   afterEach('cleanup', () => helpers.cleanTables(db))
+  beforeEach('insert testUser', () => {
+      return db
+        .into('dinner_users')
+        .insert(testUser)
+    })
 
   describe('GET /api/restaurants', () => {
+    
     context('Given no restaurants', () => {
       it('responds with 200 and an empty list', () => {
         return supertest(app)
@@ -85,6 +91,7 @@ describe('Restaurants Endpoints', function() {
      it('removes XSS attack content', () => {
        return supertest(app)
         .post('/api/restaurants')
+        .set('Authorization', helpers.makeAuthHeader(testUser))
         .send(maliciousRestaurant)
         .expect(201)
         .then(res =>
@@ -118,6 +125,7 @@ describe('Restaurants Endpoints', function() {
         delete newRestaurant[field]
         return supertest(app)
           .post('/api/restaurants')
+          .set('Authorization', helpers.makeAuthHeader(testUser))
           .send(newRestaurant)
           .expect(400, {
             error: `Missing '${field}' in body`
@@ -134,6 +142,7 @@ describe('Restaurants Endpoints', function() {
       };
         return supertest(app)
           .post('/api/restaurants')
+          .set('Authorization', helpers.makeAuthHeader(testUser))
           .send(newRestaurant)
           .expect(400, {
             error: `Style must be "local" or "chain"`
@@ -149,6 +158,7 @@ describe('Restaurants Endpoints', function() {
       }
       return supertest(app)
         .post('/api/restaurants')
+        .set('Authorization', helpers.makeAuthHeader(testUser))
         .send(newRestaurant)
         .expect(201)
         .expect(res => {
