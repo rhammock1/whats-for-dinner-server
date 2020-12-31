@@ -29,6 +29,16 @@ describe.only('Protected endpoints', function() {
         .into('dinner_users')
         .insert(testUser)
     })
+  beforeEach('insert testRecipes', () => {
+    return db
+      .into('dinner_recipes')
+      .insert(testRecipes)
+  })
+  beforeEach('insert testRestaurants', () => {
+    return db
+      .into('dinner_restaurants')
+      .insert(testRestaurants)
+  })
   const protectedEndpoints = [
     {
       name: 'GET /api/dinner/:user_id/favorites',
@@ -43,6 +53,36 @@ describe.only('Protected endpoints', function() {
     {
       name: 'DELETE /api/dinner/:user_id/favorites',
       path: '/api/dinner/1/favorites',
+      method: supertest(app).delete,
+    },
+    {
+      name: 'POST /api/recipes',
+      path: '/api/recipes',
+      method: supertest(app).post,
+    },
+    {
+      name: 'DELETE /api/recipes/:recipeId',
+      path: '/api/recipes/1',
+      method: supertest(app).delete,
+    },
+    {
+      name: 'GET /api/dinner/:user_id/recipes',
+      path: '/api/dinner/1/recipes',
+      method: supertest(app).get,
+    },
+    {
+      name: 'GET /api/dinner/:user_id/restaurants',
+      path: '/api/dinner/1/restaurants',
+      method: supertest(app).get,
+    },
+    {
+      name: 'POST /api/restaurants',
+      path: '/api/restaurants',
+      method: supertest(app).post,
+    },
+    {
+      name: 'DELETE /api/restaurants/:restaurantId',
+      path: '/api/restaurants/1',
       method: supertest(app).delete,
     },
   ]

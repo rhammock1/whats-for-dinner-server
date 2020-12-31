@@ -23,9 +23,9 @@ const ingredientsSerivice = {
   //     .where('id', id)
   //     .first()
   // },
-  deleteIngredient(knex, id) {
+  deleteIngredient(knex, recipe_id) {
     return knex('recipe_ingredients')
-      .where({ id })
+      .where({ recipe_id })
       .delete()
   },
   updateIngredient(knex, id, newIngredientField) {

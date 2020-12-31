@@ -19,7 +19,7 @@ recipesRouter
       })
       .catch(next)
   })
-  .post(jsonParser, (req, res, next) => {
+  .post(requireAuth, jsonParser, (req, res, next) => {
     const { title, content, user_id } = req.body;
     const newRecipe = { title, content, user_id };
    
@@ -42,6 +42,17 @@ recipesRouter
         .json(recipe)
     })
     .catch(next)
+  })
+  .delete((req, res, next) => {
+    const {recipeId} = req.headers;
+    
+    recipesService.deleteRecipe(
+        req.app.get('db'), id
+      )
+      .then(() => {
+        res.status(204).end()
+      })
+      .catch(next);
   })
 
 recipesRouter
@@ -92,6 +103,29 @@ recipesRouter
       .catch(next)
       
 
+  })
+  .delete(requireAuth, (req, res, next) => {
+    const {recipeId} = req.params;
+    const {ingredient} = req.headers;
+
+    if(ingredient) {
+      ingredientsSerivice.deleteIngredient(
+        req.app.get('db'), recipeId
+      )
+      .then(() => {
+        res.status(204).end()
+      })
+      .catch(next);
+    } else {
+      recipesService.deleteRecipe(
+        req.app.get('db'), recipeId
+      )
+        .then(() => {
+          res.status(204).end()
+        })
+        .catch(next)
+    }
+    
   })
 
 //  recipesRouter

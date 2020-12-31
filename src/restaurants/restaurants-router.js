@@ -95,7 +95,7 @@ restaurantsRouter
       
       res.status(200).json(serializeRestaurant(res.restaurant))
     })
-    .delete((req, res, next) => {
+    .delete(requireAuth, (req, res, next) => {
       const db = req.app.get('db');
       restaurantsService.deleteRestaurant(
         db, req.params.restaurantId
@@ -105,7 +105,7 @@ restaurantsRouter
       })
       .catch(next);
     })
-    .patch(jsonParser, (req, res, next) => {
+    .patch(requireAuth, jsonParser, (req, res, next) => {
       const { 
         title, 
         phone_number = res.restaurant.phone_number, web_url = res.restaurant.web_url, 
