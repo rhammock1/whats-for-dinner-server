@@ -80,6 +80,7 @@ describe('Recipes endpoint', function() {
       it('removes xss attack content', () => {
         return supertest(app)
           .post('/api/recipes')
+          .set('Authorization', helpers.makeAuthHeader(testUser))
           .send(maliciousRecipe)
           .expect(201)
           .then(res => 
@@ -105,6 +106,7 @@ describe('Recipes endpoint', function() {
         delete newRecipe[field]
         return supertest(app)
           .post('/api/recipes')
+          .set('Authorization', helpers.makeAuthHeader(testUser))
           .send(newRecipe)
           .expect(400, {
             error: `Missing '${field}' in body`

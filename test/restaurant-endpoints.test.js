@@ -229,6 +229,7 @@ describe('Restaurants Endpoints', function() {
         const restaurantId = 123456;
         return supertest(app)
           .delete(`/api/restaurants/${restaurantId}`)
+          .set('Authorization', helpers.makeAuthHeader(testUser))
           .expect(404, { error: `Restaurant doesn't exist` })
       })
     })
@@ -243,6 +244,7 @@ describe('Restaurants Endpoints', function() {
         const expectedRestaurants = testRestaurants.filter(restaurant => restaurant.id !== idToRemove)
         return supertest(app)
           .delete(`/api/restaurants/${idToRemove}`)
+          .set('Authorization', helpers.makeAuthHeader(testUser))
           .expect(204)
           .then(res => 
             supertest(app)
@@ -257,6 +259,7 @@ describe('Restaurants Endpoints', function() {
         const restaurantId = 123456;
         return supertest(app)
           .patch(`/api/restaurants/${restaurantId}`)
+          .set('Authorization', helpers.makeAuthHeader(testUser))
           .expect(404, { error: `Restaurant doesn't exist` })
       })
     })
@@ -281,6 +284,7 @@ describe('Restaurants Endpoints', function() {
       }
       return supertest(app)
         .patch(`/api/restaurants/${idToUpdate}`)
+        .set('Authorization', helpers.makeAuthHeader(testUser))
         .send(updatedRestaurant)
         .expect(204)
         .then(res => 
@@ -305,6 +309,7 @@ describe('Restaurants Endpoints', function() {
         delete updatedRestaurant[field]
         return supertest(app)
           .patch(`/api/restaurants/${idToUpdate}`)
+          .set('Authorization', helpers.makeAuthHeader(testUser))
           .send(updatedRestaurant)
           .expect(400, {
             error: `Missing '${field}' in body`
@@ -322,6 +327,7 @@ describe('Restaurants Endpoints', function() {
       };
         return supertest(app)
           .patch(`/api/restaurants/${idToUpdate}`)
+          .set('Authorization', helpers.makeAuthHeader(testUser))
           .send(newRestaurant)
           .expect(400, {
             error: `Style must be "local" or "chain"`
@@ -340,6 +346,7 @@ describe('Restaurants Endpoints', function() {
 
       return supertest(app)
         .patch(`/api/restaurants/${idToUpdate}`)
+        .set('Authorization', helpers.makeAuthHeader(testUser))
         .send({
           ...updateRestaurant,
           fieldToIgnore: 'should not be in GET response'
