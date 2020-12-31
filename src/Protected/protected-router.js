@@ -93,5 +93,15 @@ protectedRouter
       })
       .catch(next)
   })
-
+  .delete((req, res, next) => {
+    const {id} = req.headers;
+    console.log(id)
+    protectedService.deleteFavorite(
+        req.app.get('db'), id
+      )
+      .then(() => {
+        res.status(204).end()
+      })
+      .catch(next);
+  })
 module.exports = protectedRouter;
