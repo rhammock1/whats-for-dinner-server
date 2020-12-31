@@ -116,7 +116,6 @@ function cleanTables(db) {
 }
 function makeUser() {
   const testUser =  {
-      id: 1,
       user_name: 'test-user-1',
       first_name: 'Test user 1',
       password: bcrypt.hashSync('password', 1),
