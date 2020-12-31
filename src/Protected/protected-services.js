@@ -42,11 +42,11 @@ const protectedService = {
   //     .where('id', id)
   //     .first()
   // },
-  //   deleteThing(knex, id, table) {
-  //   return knex(table)
-  //     .where({ id })
-  //     .delete()
-  // },
+    deleteFavorite(knex, id) {
+    return knex('user_favorites')
+      .where({ id })
+      .delete()
+  },
   // updateThing(knex, id, newThingField) {
   //   return knex(table)
   //     .where({ id })
