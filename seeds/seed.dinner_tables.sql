@@ -27,6 +27,9 @@ VALUES
 ('Futo Buta', '(704) 376-8400', 'https://futobuta.com/', 'local', '222 E Bland St, Charlotte, NC 28203', null),
 ('Papi Queso', '(704) 579-1779', 'http://papiquesotruck.com/', 'local', '1115 N Brevard St, Charlotte , NC 28206', null);
 
+INSERT INTO dinner_users (user_name, first_name, password, date_created)
+VALUES
+  ('robert123', 'Robert', '$2a$12$N9VR0lHkADwi36NY9TCvGu69E/zEDeDSFYj2gWOPjNJz5nuYiHKPC', '2020-12-28 12:32:58');
 INSERT INTO dinner_recipes (user_id, title, content)
 VALUES
   (1, 'Herbed Oyster Mushroom Steak', 'Preheat oven to 375 degrees. Zest and juice lemon into a medium bowl. Add chopped parsley, scallion bulbs, olive oil, onion powder, and garlic powder. Whisk to combine. Add oyster mushrooms to the bowl with the marinade, toss to coat mushrooms, and set aside. Mushrooms can marinate for up to 24 hours in the refrigerator. Heat a medium cast iron pan over medium-high heat. Add olive oil to fully coat the bottom of pan. Remove mushrooms from the marinade and place in pan to sear (TIP: place a second pan on top of the mushrooms to weigh them down and create a more even sear). Cook mushrooms for about 5 minutes on each side. Remove top pan (if used) and place mushrooms in oven for 5-7 minutes to finish cooking and ensure crisping.'),
