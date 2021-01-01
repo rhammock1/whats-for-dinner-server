@@ -50,7 +50,7 @@ restaurantsRouter
   })
   .post(requireAuth, jsonParser, (req, res, next) => {
     const { title, phone_number, web_url, style, restaurant_address, user_id } = req.body;
-    console.log(user_id)
+   
     if(!title) {
       return res.status(400).json({
         error: `Missing 'title' in body`

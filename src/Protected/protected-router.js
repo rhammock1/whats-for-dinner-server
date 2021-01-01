@@ -95,7 +95,7 @@ protectedRouter
   })
   .delete((req, res, next) => {
     const {id} = req.headers;
-    console.log(id)
+   
     protectedService.deleteFavorite(
         req.app.get('db'), id
       )

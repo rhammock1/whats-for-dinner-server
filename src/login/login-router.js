@@ -37,7 +37,7 @@ loginRouter
             }
             const sub = dbUser.user_name
             const payload = { user_id:dbUser.id }
-            console.log(dbUser)
+          
             res.send({
               authToken: LoginService.createJWT(sub, payload),
               user_name: dbUser.user_name,

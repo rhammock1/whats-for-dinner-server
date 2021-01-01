@@ -80,8 +80,7 @@ describe('Login Endpoints', function() {
           algorithm: 'HS256',
         }
       )
-      console.log('line 83', expectedToken)
-      console.log('line 84', testUser.password)
+   
       return supertest(app)
         .post('/api/login')
         .send(userValidCreds)
