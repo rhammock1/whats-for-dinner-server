@@ -73,7 +73,7 @@ describe('Login Endpoints', function() {
         password: 'password',
       }
       const expectedToken = jwt.sign(
-        { user_id: testUser.id },
+        { user_id: 1 },
         process.env.JWT_SECRET,
         {
           subject: testUser.user_name,
@@ -88,7 +88,7 @@ describe('Login Endpoints', function() {
         .expect(200, {
           authToken: expectedToken,
           user_name: testUser.user_name,
-          id: testUser.id
+          id: 1
         })
     })
   })

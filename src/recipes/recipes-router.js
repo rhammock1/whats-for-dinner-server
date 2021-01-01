@@ -1,7 +1,7 @@
 const express = require('express');
 const path = require('path');
 const recipesService = require('./recipes-service');
-const ingredientsSerivice = require('./ingredients-service');
+const ingredientsService = require('./ingredients-service');
 const { requireAuth } = require('../middleware/jwt-auth');
 
 const recipesRouter = express.Router();
@@ -59,13 +59,13 @@ recipesRouter
   .route('/:recipeId')
   .all(checkRecipeExists)
   .get((req, res, next) => {
-    ingredientsSerivice.getIngredients(
+    ingredientsService.getIngredients(
       req.app.get('db'),
       res.recipe.id
     )
       .then(ingredients => {
         
-        ingredients.forEach(ingredient => ingredientsSerivice.serializeIngredient(ingredient)
+        ingredients.forEach(ingredient => ingredientsService.serializeIngredient(ingredient)
         )
         
         const fullRecipe = {
@@ -86,7 +86,7 @@ recipesRouter
           })
         }
       }
-      ingredientsSerivice.serializeIngredient(ingredient)
+      ingredientsService.serializeIngredient(ingredient)
     })
     const ingredientsToInsert = ingredients.map(ingredient => ({
       amount: ingredient.amount,
@@ -94,7 +94,7 @@ recipesRouter
       ingredient: ingredient.ingredient,
       recipe_id: ingredient.recipe_id
       }))
-    ingredientsSerivice.insertIngredient(req.app.get('db'), ingredientsToInsert)
+    ingredientsService.insertIngredient(req.app.get('db'), ingredientsToInsert)
       .then(ingredient => {
         return res.status(201)
           .location(path.posix.join(req.originalUrl, `/${ingredient.recipe_id}`))
@@ -106,25 +106,33 @@ recipesRouter
   })
   .delete(requireAuth, (req, res, next) => {
     const {recipeId} = req.params;
-    const {ingredient} = req.headers;
-
-    if(ingredient) {
-      ingredientsSerivice.deleteIngredient(
-        req.app.get('db'), recipeId
+    const {ingredientId } = req.headers;
+    
+    if(ingredientId) {
+      ingredientsService.deleteIngredient(
+        req.app.get('db'), ingredientId
       )
       .then(() => {
         res.status(204).end()
       })
       .catch(next);
     } else {
-      recipesService.deleteRecipe(
+       ingredientsService.deleteAllIngredients(
+        req.app.get('db'), recipeId
+      )
+      .then(() => {
+        recipesService.deleteRecipe(
         req.app.get('db'), recipeId
       )
         .then(() => {
           res.status(204).end()
         })
         .catch(next)
+      })
+      .catch(next);
     }
+    
+  
     
   })
 

@@ -23,10 +23,17 @@ const ingredientsSerivice = {
   //     .where('id', id)
   //     .first()
   // },
-  deleteIngredient(knex, recipe_id) {
+  deleteIngredient(knex, ingredientId) {
     return knex('recipe_ingredients')
+      .where({ id:ingredientId })
+      .delete()
+  },
+  deleteAllIngredients(knex, recipe_id) {
+    return knex('recipe_ingredients')
+      .select('*')
       .where({ recipe_id })
       .delete()
+      
   },
   updateIngredient(knex, id, newIngredientField) {
     return knex('recipe_ingredients')
