@@ -168,20 +168,127 @@ url: /api/recipes.:recipe_id
 Code: 200 ok
 <hr />
 
-Open: /api/login
-POST
+### Open: /api/login
+#### Method: POST
+url: /api/login
+##### Success Response
+Code: 200 ok <br />
+Sample Request:
+```
+{
+    "user_name": "[valid user_name]",
+    "password": "[password in plain text]"
+}
+```
+Sample Response:
+```
+{
+    "authToken": "[A valid authToken will be in here]",
+    "user_name": "user123",
+    "id": 1
+}
+```
+<hr />
 
-Open: /api/users
-POST
+### Open: /api/users
+#### Method: POST
+url: /api/users/
+##### Success Response
+Code: 201 created <br />
+Sample Request:
+```
+{
+    "user_name": "[unique user_name]",
+    "password": "[password in plain text]",
+    "first_name": "Bob"
+}
+```
+Sample Response:
+```
+{
+    "id": 21,
+    "first_name": "Bob",
+    "user_name": "newUser123",
+    "date_created": "2021-01-05T16:04:52.269Z"
+}
+```
+<hr />
 
-Closed: /api/dinner
-GET /:user_id/restaurants
-GET /:user_id/recipes
-GET /:user_id/favorites
-POST /:user_id/favorites
-DELETE /:user_id/favorites
+### Closed: /api/dinner
+#### Method: GET /:user_id/restaurants
+url: /api/dinner/:user_id/restaurants
+##### Success Response
+Code: 200 ok <br />
+Sample Response: 
+```
+[
+  {
+    "id": 16,
+    "title": "Rhino Market & Deli",
+    "phone_number": "(704) 375-2036",
+    "web_url": "http://rhinomarket.com/",
+    "style": "local",
+    "restaurant_address": "1500 W Morehead St Ste E, Charlotte, NC 28208",
+    "user_id": 1
+  }, ...
+]
+```
+#### Method: GET /:user_id/recipes
+url: /api/dinner/:user_id/recipes
+##### Success Response
+Code: 200 ok <br />
+Sample Response: 
+```
+[
+  {
+    "id": 234,
+    "title": "Seared Trout with Lemon",
+    "content": "Preheat the oven to 375. Make sure there are no scales left on the fish. Pat the fish dry with a paper towel, then coat lightly in oil. etc...",
+    "user_id": 1
+  }, ...
+]
+```
+#### Method: GET /:user_id/favorites
+url: /api/dinner/:user_id/favorites
+##### Success Response
+Code: 200 ok <br />
+Sample Response: 
+```
+[
+  {
+    "id": 83,
+    "what_it_is": "restaurant",
+    "user_id": 1,
+    "item_id": 16
+  }, ...
+]
+```
+*** item_id refers to either restaurant_id or recipe_id based on the value of what_it_is <br />
 
-
-### Deploying
-
-When your new project is ready for deployment, add a new Heroku application with `heroku create`. This will make a new git remote called "heroku" and you can then `npm run deploy` which will push to this remote's main branch.
+#### Method: POST /:user_id/favorites
+url: /api/dinner/:user_id/favorites
+##### Success Response
+Code: 201 created <br />
+Sample Request: 
+```
+{
+  "what_it_is": "restaurant",
+  "user_id": 1,
+  "item_id": 12
+}
+```
+Sample Response: 
+```
+{
+  "id": 123
+  "what_it_is": "restaurant",
+  "user_id": 1,
+  "item_id": 12
+}
+```
+#### Method: DELETE /:user_id/favorites
+url: /api/dinner/:user_id/favorites
+***<strong>Should include favorite "id" in the headers of request. headers: { id: favorite_id } </strong>
+##### Success Response
+Code: 204 no content
+Required Value: favorite_id
