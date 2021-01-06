@@ -1,3 +1,5 @@
+/* eslint-disable no-unused-vars */
+'use strict';
 const express = require('express');
 const morgan = require('morgan');
 const cors = require('cors');
@@ -33,6 +35,6 @@ app.use(function errorHandler(error, req, res, next) {
     response = { message: error.message, error };
   }
   res.status(500).json(response);
-})
+});
 
 module.exports = app;

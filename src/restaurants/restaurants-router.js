@@ -148,22 +148,22 @@ restaurantsRouter
     })
 
     async function checkRestaurantExists(req, res, next) {
-      try {
-        const restaurant = await restaurantsService.getById(
-          req.app.get('db'),
-          req.params.restaurantId
-        )
-        if (!restaurant) {
-          return res.status(404).json({
-            error: `Restaurant doesn't exist`
-          })
-        }
-        res.restaurant = restaurant
-        next()
-      } catch(error) {
-        next(error)
-      }
+  try {
+    const restaurant = await restaurantsService.getById(
+      req.app.get('db'),
+      req.params.restaurantId
+    );
+    if (!restaurant) {
+      return res.status(404).json({
+        error: `Restaurant doesn't exist`
+      });
     }
+    res.restaurant = restaurant;
+    next();
+  } catch (error) {
+    next(error);
+  }
+}
 
 
 

@@ -1,3 +1,4 @@
+'use strict';
 const xss = require('xss');
 
 const ingredientsSerivice = {
@@ -5,7 +6,7 @@ const ingredientsSerivice = {
     return knex
       .from('recipe_ingredients')
       .select('*')
-      .where('recipe_id', recipeId)
+      .where('recipe_id', recipeId);
   },
   insertIngredient(knex, newIngredient) {
     return knex
@@ -13,8 +14,8 @@ const ingredientsSerivice = {
       .into('recipe_ingredients')
       .returning('*')
       .then(rows => {
-        return rows[0]
-      })
+        return rows[0];
+      });
   },
   // getById(knex, id) {
   //   return knex
@@ -26,19 +27,19 @@ const ingredientsSerivice = {
   deleteIngredient(knex, ingredientId) {
     return knex('recipe_ingredients')
       .where({ id:ingredientId })
-      .delete()
+      .delete();
   },
   deleteAllIngredients(knex, recipe_id) {
     return knex('recipe_ingredients')
       .select('*')
       .where({ recipe_id })
-      .delete()
+      .delete();
       
   },
   updateIngredient(knex, id, newIngredientField) {
     return knex('recipe_ingredients')
       .where({ id })
-      .update(newIngredientField)
+      .update(newIngredientField);
   },
   serializeIngredient(ingredient) {
     return {
@@ -47,7 +48,7 @@ const ingredientsSerivice = {
       unit: xss(ingredient.unit),
       amount: xss(ingredient.amount),
       recipe_id: ingredient.recipe_id
-    }}
+    };}
 };
 
 module.exports = ingredientsSerivice;
