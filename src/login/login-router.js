@@ -1,3 +1,4 @@
+'use strict';
 const express = require('express');
 const LoginService = require('./login-service');
 
@@ -10,10 +11,10 @@ loginRouter
     const loginUser = { user_name, password };
 
     for(const [key, value] of Object.entries(loginUser)) {
-      if (value == null) {
+      if (value === null) {
         return res.status(400).json({
           error: `Missing '${key}' in request body`
-        })
+        });
       }
     }
 
@@ -25,27 +26,27 @@ loginRouter
         if(!dbUser) {
           return res.status(400).json({
             error: 'Incorrect user_name or password',
-          })
+          });
         }
         return LoginService.comparePasswords(loginUser.password, dbUser.password)
           .then(compareMatch => {
             if(!compareMatch) {
               return res.status(400).json({
                 error: 'Incorrect user_name or password',
-              })
+              });
 
             }
-            const sub = dbUser.user_name
-            const payload = { user_id:dbUser.id }
+            const sub = dbUser.user_name;
+            const payload = { user_id:dbUser.id };
           
             res.send({
               authToken: LoginService.createJWT(sub, payload),
               user_name: dbUser.user_name,
               id: dbUser.id,
-            })
-          })
+            });
+          });
       })
-    .catch(next)
-  })
+      .catch(next);
+  });
 
-  module.exports = loginRouter;
+module.exports = loginRouter;

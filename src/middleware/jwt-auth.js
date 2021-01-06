@@ -1,3 +1,4 @@
+'use strict';
 const LoginService = require('../login/login-service');
 
 function requireAuth(req, res, next) {
@@ -5,35 +6,35 @@ function requireAuth(req, res, next) {
 
   let bearerToken;
   if(!authToken.toLowerCase().startsWith('bearer ')) {
-    return res.status(401).json({ error: 'Missing bearer token' })
+    return res.status(401).json({ error: 'Missing bearer token' });
 
   } else {
-    bearerToken = authToken.slice(7, authToken.length)
+    bearerToken = authToken.slice(7, authToken.length);
   }
 
   try {
-    const payload = LoginService.verifyJWT(bearerToken)
+    const payload = LoginService.verifyJWT(bearerToken);
 
     LoginService.getUserWithUserName(
       req.app.get('db'),
-      payload.sub,
+      payload.sub
     )
       .then(user => {
         if(!user) {
-          return res.status(401).json({ error: 'Unauthorized request' })
+          return res.status(401).json({ error: 'Unauthorized request' });
         }
-          req.user = user
-          next()
+        req.user = user;
+        next();
       })
       .catch(err => {
-        console.error(err)
-        next(err)
-      })
+        console.error(err);
+        next(err);
+      });
   } catch(error) {
-    res.status(401).json({ error: 'Unauthorized request' })
+    res.status(401).json({ error: 'Unauthorized request' });
   }
 }
 
 module.exports = {
   requireAuth,
-}
+};

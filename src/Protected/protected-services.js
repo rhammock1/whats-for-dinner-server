@@ -1,3 +1,5 @@
+/* eslint-disable no-prototype-builtins */
+'use strict';
 const xss = require('xss');
 
 const protectedService = {
@@ -5,7 +7,7 @@ const protectedService = {
     return knex
       .select('*')
       .from(table)
-      .where({user_id})
+      .where({user_id});
   },
   serializeThing(thing) {
     if(thing.hasOwnProperty('style')) {
@@ -17,23 +19,23 @@ const protectedService = {
         style: thing.style,
         restaurant_address: xss(thing.restaurant_address),
         user_id: thing.user_id,
-        }
+      };
     } else {
       return {
         id: thing.id,
         title: xss(thing.title),
         content: xss(thing.content)
-      }
+      };
     }
   },
   insertNewFavorite(knex, newFavorite) {
-  return knex
-    .insert(newFavorite)
-    .into('user_favorites')
-    .returning('*')
-    .then(rows => {
-      return rows[0]
-    })
+    return knex
+      .insert(newFavorite)
+      .into('user_favorites')
+      .returning('*')
+      .then(rows => {
+        return rows[0];
+      });
   },
   // getById(knex, id, table) {
   //   return knex
@@ -42,16 +44,16 @@ const protectedService = {
   //     .where('id', id)
   //     .first()
   // },
-    deleteFavorite(knex, id) {
+  deleteFavorite(knex, id) {
     return knex('user_favorites')
       .where({ id })
-      .delete()
+      .delete();
   },
   // updateThing(knex, id, newThingField) {
   //   return knex(table)
   //     .where({ id })
   //     .update(newThingField)
   // },
-}
+};
 
 module.exports = protectedService;

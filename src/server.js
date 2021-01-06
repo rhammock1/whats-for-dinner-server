@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 'use strict';
 const app = require('./app');
 const { PORT, DATABASE_URL } = require('./config');

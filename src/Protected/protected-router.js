@@ -1,3 +1,4 @@
+'use strict';
 const express = require('express');
 const path = require('path');
 const protectedService = require('./protected-services');
@@ -14,10 +15,10 @@ protectedRouter
   .all(requireAuth)
   .get((req, res, next) => {
     protectedService.getUsersThings(req.app.get('db'), req.params.user_id, restaurants)
-    .then(restaurants => {
-      res.json(restaurants.map(protectedService.serializeThing))})
-    .catch(next)
-  })
+      .then(restaurants => {
+        res.json(restaurants.map(protectedService.serializeThing));})
+      .catch(next);
+  });
 
 
 protectedRouter
@@ -25,19 +26,19 @@ protectedRouter
   .all(requireAuth)
   .get((req, res, next) => {
     protectedService.getUsersThings(req.app.get('db'), req.params.user_id, recipes)
-    .then(recipes => res.json(recipes.map(protectedService.serializeThing)))
-    .catch(next)
-  })
+      .then(recipes => res.json(recipes.map(protectedService.serializeThing)))
+      .catch(next);
+  });
 
 protectedRouter
   .route('/:user_id/favorites')
   .all(requireAuth)
   .get((req, res, next) => {
     protectedService.getUsersThings(req.app.get('db'), req.params.user_id, favorites)
-    .then(favorites => {
+      .then(favorites => {
       
-      res.json(favorites)})
-    .catch(next)
+        res.json(favorites);})
+      .catch(next);
   })
   .post(jsonParser, (req, res, next) => {
     const {what_it_is, user_id, item_id } = req.body;
@@ -45,19 +46,19 @@ protectedRouter
       what_it_is,
       user_id,
       item_id,
-    }
+    };
   
     for(const [key, value] of Object.entries(newFavorite)) {
-        if(value == null) {
-          return res.status(400).json({
-            error: `Missing '${key}' in body`
-          })
-        }
+      if(value === null) {
+        return res.status(400).json({
+          error: `Missing '${key}' in body`
+        });
       }
-    if(what_it_is != 'restaurant' && what_it_is != 'recipe') {
+    }
+    if(what_it_is !== 'restaurant' && what_it_is !== 'recipe') {
       return res.status(400).json({
-        error: `what_it_is must be either restaurant or recipe`
-      })
+        error: 'what_it_is must be either restaurant or recipe'
+      });
     }
     protectedService.insertNewFavorite(
       req.app.get('db'),
@@ -66,19 +67,19 @@ protectedRouter
       .then(favorite => {
         return res.status(201)
           .location(path.posix.join(req.originalUrl, `/${favorite.id}`))
-          .json(favorite)
+          .json(favorite);
       })
-      .catch(next)
+      .catch(next);
   })
   .delete((req, res, next) => {
     const {id} = req.headers;
    
     protectedService.deleteFavorite(
-        req.app.get('db'), id
-      )
+      req.app.get('db'), id
+    )
       .then(() => {
-        res.status(204).end()
+        res.status(204).end();
       })
       .catch(next);
-  })
+  });
 module.exports = protectedRouter;

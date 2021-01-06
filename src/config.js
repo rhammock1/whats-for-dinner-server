@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 'use strict';
 const dbURL = (process.env.NODE_ENV === 'development') 
   ? 'postgres://dunder_mifflin@localhost/dinner'
