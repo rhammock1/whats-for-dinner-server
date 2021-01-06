@@ -11,7 +11,7 @@ loginRouter
     const loginUser = { user_name, password };
 
     for(const [key, value] of Object.entries(loginUser)) {
-      if (value === null) {
+      if (value === undefined) {
         return res.status(400).json({
           error: `Missing '${key}' in request body`
         });

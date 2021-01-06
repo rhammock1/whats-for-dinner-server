@@ -4,12 +4,14 @@ TRUNCATE
   dinner_users,
   dinner_restaurants,
   dinner_recipes,
-  recipe_ingredients
+  recipe_ingredients,
+  user_favorites
   RESTART IDENTITY CASCADE; 
 
 INSERT INTO dinner_users (user_name, first_name, password, date_created)
 VALUES
-  ('robert123', 'Robert', '$2a$12$N9VR0lHkADwi36NY9TCvGu69E/zEDeDSFYj2gWOPjNJz5nuYiHKPC', '2020-12-28 12:32:58');
+  ('robert123', 'Robert', '$2a$12$N9VR0lHkADwi36NY9TCvGu69E/zEDeDSFYj2gWOPjNJz5nuYiHKPC', '2020-12-28 12:32:58'),
+  ('demo', 'Demo', '$2a$12$WqcdTEB8sA6zSxNN2o2FC.wFujeMsKmAb.PQwMDpH2nuUBiRnNV1G', '2020-12-28 12:32:58');
 
 INSERT INTO dinner_restaurants (title, phone_number, web_url, style, restaurant_address, user_id)
 VALUES

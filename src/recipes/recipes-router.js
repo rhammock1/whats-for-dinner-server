@@ -23,9 +23,9 @@ recipesRouter
   .post(requireAuth, jsonParser, (req, res, next) => {
     const { title, content, user_id } = req.body;
     const newRecipe = { title, content, user_id };
-   
+    console.log(newRecipe);
     for(const [key, value] of Object.entries(newRecipe)) {
-      if(value === null) {
+      if(value === undefined) {
         return res.status(400).json({
           error: `Missing '${key}' in body`
         });
@@ -60,6 +60,7 @@ recipesRouter
   .route('/:recipeId')
   .all(checkRecipeExists)
   .get((req, res, next) => {
+    console.log(res.recipe.id)
     ingredientsService.getIngredients(
       req.app.get('db'),
       res.recipe.id
@@ -141,9 +142,9 @@ recipesRouter
     
   });
 
-const checkRecipeExists = (req, res, next) => {
+async function checkRecipeExists (req, res, next) {
   try {
-    const recipe = recipesService.getById(
+    const recipe = await recipesService.getById(
       req.app.get('db'),
       req.params.recipeId
     );
@@ -157,5 +158,5 @@ const checkRecipeExists = (req, res, next) => {
   } catch(error) {
     next(error);
   }
-};
+}
 module.exports = recipesRouter;
