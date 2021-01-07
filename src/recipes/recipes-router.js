@@ -23,7 +23,6 @@ recipesRouter
   .post(requireAuth, jsonParser, (req, res, next) => {
     const { title, content, user_id } = req.body;
     const newRecipe = { title, content, user_id };
-    console.log(newRecipe);
     for(const [key, value] of Object.entries(newRecipe)) {
       if(value === undefined) {
         return res.status(400).json({
@@ -60,7 +59,6 @@ recipesRouter
   .route('/:recipeId')
   .all(checkRecipeExists)
   .get((req, res, next) => {
-    console.log(res.recipe.id)
     ingredientsService.getIngredients(
       req.app.get('db'),
       res.recipe.id
