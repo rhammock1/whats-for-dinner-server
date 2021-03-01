@@ -3,6 +3,11 @@
   "version": "1.0.0",
   "description": "This is an app to help users choose what to eat for dinner",
   "main": "src/server.js",
+  "env": {
+    "node": true,
+    "commonjs": true,
+    "es6": true
+  },
   "scripts": {
     "test": "mocha --require test/setup.js",
     "dev": "nodemon src/server.js",
@@ -16,7 +21,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/rhammock1/express-boilerplate.git"
+    "url": "git+https://github.com/rhammock1/whats-for-dinner-server.git"
   },
   "keywords": [],
   "engines": {
@@ -25,9 +30,9 @@
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/rhammock1/express-boilerplate/issues"
+    "url": "https://github.com/rhammock1/whats-for-dinner-server/issues"
   },
-  "homepage": "https://github.com/rhammock1/express-boilerplate#readme",
+  "homepage": "https://github.com/rhammock1/whats-for-dinner-server#readme",
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
