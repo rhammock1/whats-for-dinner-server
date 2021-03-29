@@ -29,7 +29,7 @@ app.use('/api/dinner', protectedRouter);
 app.use(function errorHandler(error, req, res, next) {
   let response;
   if(NODE_ENV === 'production') {
-    response = { error: { message: 'Internal Server Error' } };
+    response = { error: { message: error.message, error } };
   } else {
     console.error(error);
     response = { message: error.message, error };
