@@ -14,7 +14,7 @@ const protectedRouter = require('./Protected/protected-router');
 
 const app = express();
 
-const morganOption = (NODE_ENV === 'production') ? 'common' : 'common';
+const morganOption = (NODE_ENV === 'production') ? 'dev' : 'common';
 
 app.use(morgan(morganOption));
 app.use(helmet());
